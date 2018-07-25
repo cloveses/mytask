@@ -10,6 +10,26 @@ class User(db.Entity):
     age = Required(str)
     secure_questions = Set('SecureQuestion')
     qestion_naires = set('QestionNaire')
+    feed_backs = set('FeedBack')
+
+    real_name = Optional(str)
+    home_addr = Optional(str)
+    company_addr = Optional(str)
+    height = Optional(int)
+    weight = Optional(int)
+
+    nicky_name = Optional(str)
+    email = Optional(str)
+    country = Optional(str)
+    area = Optional(str)
+    number = Optional(str)
+    relationship = Optional(str)
+
+class FeedBack(db.Entity):
+    content = Optional(str)
+    email = Optional(str)
+    score = Optional(int)
+    user = Required(User)
 
 class SecureQuestion(db.Entity):
     qestion_id = Required(int)
