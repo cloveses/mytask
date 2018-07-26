@@ -35,6 +35,12 @@ class RegHdl(BaseHandler):
         else:
             self.write_json({'status':1,'msg':'请完整填写数据！'})
 
+@route('/app/v1/init')
+class InitHdl(BaseHandler):
+
+    def post(self):
+        self.write_json({'status':0})
+
 @route('/app/v1/saveSecrityQuestion')
 class SecrityQustHdl(BaseHandler):
 
@@ -217,4 +223,62 @@ class LogoutHdl(BaseHandler):
             uid = int(params['userId'])
             self.write_json({'status':0})
             return
+        self.write_json({'status':1,'msg':'失败！'})
+
+@route('/app/v1/trusts')
+class TrustsHdl(BaseHandler):
+
+    def post(self):
+        keys = ('userId',)
+        params = self.get_params(keys)
+        if params['userId']:
+            uid = int(params['userId'])
+            data = datamgr.get_trusts(uid)
+            if data:
+                self.write_json({'status':0,'data':data})
+                return
+        self.write_json({'status':1,'msg':'失败！'})
+
+@route('/app/v1/modifyTrust')
+class ModifyTrustHdl(BaseHandler):
+
+    def post(self):
+        keys = ('userId','trustId','nickyName','email','country',
+            'area','number','relationship')
+        params = self.get_params(keys)
+        if all(params.values()):
+            uid = int(params['userId'])
+            del params['userId']
+            tid = int(params['trustId'])
+            del params['trustId']
+            if datamgr.modify_trust(tid,params):
+                self.write_json({'status':0})
+                return
+        self.write_json({'status':1,'msg':'失败！'})
+
+@route('/app/v1/deleteTrust')
+class DeleteTrustHdl(BaseHandler):
+    def post(self):
+        keys = ('userId','trustId',)
+        params = self.get_params(keys)
+        if all(params.values()):
+            uid = int(params['userId'])
+            tid = int(params['trustId'])
+            if datamgr.delete_trust(uid,tid):
+                self.write_json({'status':0})
+                return
+        self.write_json({'status':1,'msg':'失败！'})
+
+@route('/app/v1/queryTrust')
+class QueryTrust(BaseHandler):
+    def post(self):
+        keys = ('userId','trustId',)
+        params = self.get_params(keys)
+        if all(params.values()):
+            uid = int(params['userId'])
+            tid = int(params['trustId'])
+            data = datamgr.query_trust(uid,tid)
+            if data:
+                self.write_json({'status':0,'data':data})
+                return
         self.write_json({'status':1,'msg':'失败！'})

@@ -91,12 +91,12 @@ def modify_psw(uid,params,make_pw):
 def setting_trust(uid,params):
     u = select(u for u in User if u.id == uid).first()
     if u:
-        for k,v in params.items():
-            if k == 'nickyName':
-                u.nicky_name = v
-            else:
-                setattr(u,k,v)
+        params['nicky_name'] = params['nickyName']
+        del params['nickyName']
+        t = Trust(user=u,**params)
+        u.trusts.add(t)
         return True
+
 @db_session
 def add_feed_back(uid,params):
     u = User[uid]
@@ -105,3 +105,32 @@ def add_feed_back(uid,params):
                 score=int(params['score']),user=u)
         u.feed_backs.add(fb)
         return True
+
+@db_session
+def get_trusts(uid):
+    u = User[uid]
+    if u:
+        return [t.to_dict() for t in u.trusts]
+
+@db_session
+def modify_trust(tid,params):
+    t = select(t for t in Trust if t.id==tid).first()
+    if t:
+        for k,v in params.items():
+            setattr(t,k,v)
+        return True
+
+@db_session
+def delete_trust(uid,tid):
+    t = select(t for t in Trust if t.id==tid).first()
+    if t:
+        u = User[uid]
+        u.trusts.remove(t)
+        t.delete()
+        return True
+
+@db_session
+def query_trust(uid,tid):
+    t = select(t for t in Trust if t.id==tid).first()
+    if t:
+        return t.to_dict()

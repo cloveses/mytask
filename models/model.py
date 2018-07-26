@@ -11,6 +11,7 @@ class User(db.Entity):
     secure_questions = Set('SecureQuestion')
     qestion_naires = Set('QestionNaire')
     feed_backs = Set('FeedBack')
+    trusts = Set('Trust')
 
     real_name = Optional(str)
     home_addr = Optional(str)
@@ -18,12 +19,14 @@ class User(db.Entity):
     height = Optional(int)
     weight = Optional(int)
 
-    nicky_name = Optional(str)
-    email = Optional(str)
-    country = Optional(str)
-    area = Optional(str)
-    number = Optional(str)
-    relationship = Optional(str)
+class Trust(db.Entity):
+    nicky_name = Required(str)
+    email = Required(str)
+    country = Required(str)
+    area = Required(str)
+    number = Required(str)
+    relationship = Required(str)
+    user = Required(User,reverse='trusts')
 
 class FeedBack(db.Entity):
     content = Optional(str)
