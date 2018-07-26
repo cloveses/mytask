@@ -9,8 +9,8 @@ class User(db.Entity):
     gender = Required(int)
     age = Required(str)
     secure_questions = Set('SecureQuestion')
-    qestion_naires = set('QestionNaire')
-    feed_backs = set('FeedBack')
+    qestion_naires = Set('QestionNaire')
+    feed_backs = Set('FeedBack')
 
     real_name = Optional(str)
     home_addr = Optional(str)
@@ -29,17 +29,17 @@ class FeedBack(db.Entity):
     content = Optional(str)
     email = Optional(str)
     score = Optional(int)
-    user = Required(User)
+    user = Required(User,reverse='feed_backs')
 
 class SecureQuestion(db.Entity):
-    qestion_id = Required(int)
+    question_id = Required(int)
     answer = Required(str)
-    user = Required(User)
+    user = Required(User,reverse='secure_questions')
 
 class QestionNaire(db.Entity):
-    qestion_id = Required(str)
+    question_id = Required(str)
     answer = Required(str)
-    user = Required(User)
+    user = Required(User,reverse='qestion_naires')
 
 
 set_sql_debug(True)

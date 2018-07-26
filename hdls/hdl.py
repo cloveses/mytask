@@ -1,5 +1,6 @@
 import hashlib
 import json
+import tornado.web
 from tweb.web import BaseHandler, route
 from models import datamgr
 
@@ -11,27 +12,34 @@ def make_pw(psw,salt):
 @route('/')
 class IndexHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         self.write_json({"hint_info":'self.hint_info'})
 
 @route('/app/v1/register')
 class RegHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userName','psw','gender','age')
         params = self.get_params(keys)
         if all(params.values()):
-            params['gender'] = int(gender)
+            params['gender'] = int(params['gender'])
             params['psw'] = make_pw(params['psw'],params['userName'])
-            datamgr.add_user(params)
-            self.write_json({'status':0})
+            keys_dict = {'userName':'name','psw':'passwd','gender':'gender','age':'age'}
+            params = {v:params[k] for k,v in keys_dict.items()}
+            res = datamgr.add_user(params)
+            if res:
+                self.write_json({'status':0})
+            else:
+                if res is not None:
+                    self.write_json({'status':1,'msg':'用户名已被注册！'})
         else:
             self.write_json({'status':1,'msg':'请完整填写数据！'})
 
 @route('/app/v1/saveSecrityQuestion')
-class SecrityQustHdl(BaseHandler)
+class SecrityQustHdl(BaseHandler):
 
-    def get(self):
+    # @tornado.web.authenticated
+    def post(self):
         keys = ('userId','questionId01','answer01',
             'questionId02','answer02','questionId03','answer03')
         params = self.get_params(keys)
@@ -46,7 +54,7 @@ class SecrityQustHdl(BaseHandler)
 @route('/app/v1/questionnaire')
 class QuestionNaire(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userId','questionnaireResult')
         params = self.get_params(keys)
         if all(params.values()):
@@ -59,12 +67,12 @@ class QuestionNaire(BaseHandler):
 @route('/app/v1/login')
 class LoginHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userName','psw')
         params = self.get_params(keys)
         if all(params.values()):
             psw = make_pw(params['psw'],params['userName'])
-            u = datamgr.user_verify(params['userName'],params['psw'])
+            u = datamgr.user_verify(params['userName'],psw)
             if u:
                 self.write_json({'status':0,'msg':'登录成功！','data':u})
             else:
@@ -75,20 +83,23 @@ class LoginHdl(BaseHandler):
 @route('/app/v1/obtainSecrityQuestion')
 class ObtainSecrityHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userName',)
         params = self.get_params(keys)
         if all(params.values()):
             qstns = datamgr.get_secure_qstn(params['userName'])
             if qstns:
-                data = [[qstn.qestion_id,qstn.answer] for qstn in qstns]
-                self.write_json({'status':0,'data':data})
+                res = {'status':0}
+                for qstn in qstns:
+                    res[qstn.question_id] = qstn.answer
+                self.write_json(res)
+                return
         self.write_json({'status':1,'msg':'未设置安全问题或用户名错误！'})
 
 @route('/app/v1/forgetPswVerify')
 class PswVerifyHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userName','questionId01','answer01',
             'questionId02','answer02','questionId03','answer03')
         params = self.get_params(keys)
@@ -101,36 +112,39 @@ class PswVerifyHdl(BaseHandler):
             qstn_data[params['questionId03']] = params['answer03']
             if datamgr.verify_secure_question(params['userName'],qstn_data):
                 self.write_json({'status':0})
+                return
         self.write_json({'status':1,'msg':'安全问题验证未通过！'})
 
 @route('/app/v1/forgetPsw')
 class ForgetPsw(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userName','newPsw')
         params = self.get_params(keys)
         if all(params.values()):
             psw = make_pw(params['newPsw'],params['userName'])
             if datamgr.new_psw(params['userName'],psw):
                 self.write_json({'status':0})
+                return
         self.write_json({'status':1,'msg':'密码修改失败！'})
 
 @route('/app/v1/obtainProfile')
 class ObtainProfileHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userId',)
         params = self.get_params(keys)
         if all(params.values()):
             data = datamgr.get_user_info(params['userId'])
             if data:
                 self.write_json({'status':0,'data':data})
+                return
         self.write_json({'status':1,'msg':'信息获取失败！'})
 
 @route('/app/v1/modifyProfile')
 class ModifyProfileHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         keyas = ('userId','realName','gender','age')
         keybs = ('homeAddr','companyAddr','height','weight')
         paramas = self.get_params(keyas)
@@ -148,25 +162,27 @@ class ModifyProfileHdl(BaseHandler):
             del paramas['userId']
             if datamgr.modify_user(uid,paramas):
                 self.write_json({'status':0})
+                return
         self.write_json({'status':1,'msg':'信息修改失败！'})
 
 @route('/app/v1/modifyPsw')
 class ModifyPswHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userId','oldPsw','newPsw')
         params = self.get_params(keys)
         if all(params.values()):
             uid = int(params['userId'])
             if datamgr.modify_psw(uid,params,make_pw):
                 self.write_json({'status':0})
+                return
         self.write_json({'status':1,'msg':'密码修改失败！'})
 
 
 @route('/app/v1/settingTrust')
 class SettingTrustHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userId','nickyName','email','country',
             'area','number','relationship')
         params = self.get_params(keys)
@@ -175,27 +191,30 @@ class SettingTrustHdl(BaseHandler):
             del params['userId']
             if datamgr.setting_trust(uid,params):
                 self.write_json({'status':0})
+                return
         self.write_json({'status':1,'msg':'设置失败！'})
 
 @route('/app/v1/feedback')
 class FeedBackHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userId','content','email','score')
         params = self.get_params(keys)
         if all(params.values()):
             uid = int(params['userId'])
             if datamgr.add_feed_back(uid,params):
                 self.write_json({'status':0})
+                return
         self.write_json({'status':1,'msg':'设置失败！'})
 
 @route('/app/v1/logout')
 class LogoutHdl(BaseHandler):
 
-    def get(self):
+    def post(self):
         keys = ('userId',)
         params = self.get_params(keys)
         if params['userId']:
             uid = int(params['userId'])
-                self.write_json({'status':0})
+            self.write_json({'status':0})
+            return
         self.write_json({'status':1,'msg':'失败！'})

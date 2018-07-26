@@ -2,6 +2,13 @@ import tornado.web
 
 class BaseHandler(tornado.web.RequestHandler):
 
+    def prepare(self):
+        pass
+
+    @property
+    def current_user(self):
+        pass
+
     def write_json(self, obj):
         """Writes the JSON-formated string of the give obj
         to the output buffer"""

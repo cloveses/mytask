@@ -2,17 +2,21 @@ from .model import *
 
 @db_session
 def add_user(params):
-    User(**params)
+    if not exists(u for u in User if u.name==params['name']):
+        User(**params)
+        return True
+    else:
+        return False
 
 @db_session
 def add_secure_qestion(params):
     u = User[params['userId']]
     qsts =( 
-        SecureQuestion(qestion_id=params['questionId01'],answer=params['answer01'],user=u)
-        SecureQuestion(qestion_id=params['questionId02'],answer=params['answer02'],user=u)
-        SecureQuestion(qestion_id=params['questionId03'],answer=params['answer03'],user=u))
+        SecureQuestion(question_id=params['questionId01'],answer=params['answer01'],user=u),
+        SecureQuestion(question_id=params['questionId02'],answer=params['answer02'],user=u),
+        SecureQuestion(question_id=params['questionId03'],answer=params['answer03'],user=u))
     for qst in qsts:
-        user.secure_questions.add(qst)
+        u.secure_questions.add(qst)
 
 @db_session
 def add_question_naire(params):
@@ -20,7 +24,7 @@ def add_question_naire(params):
     qresults = params['questionnaireResult']
     qns = []
     for k,v in qresults.items():
-        qns.add(QestionNaire(qestion_id=k,answer=v,user=u))
+        qns.add(QestionNaire(question_id=k,answer=v,user=u))
     for qn in qns:
         u.question_naires.add(qn)
 
@@ -28,7 +32,7 @@ def add_question_naire(params):
 def user_verify(username,psw):
     u = select(u for u in User if u.name == username and u.passwd == psw).first()
     if u:
-        return {'userName':u.name,'id':u.id}
+        return {'userName':u.name,'userId':u.id}
 
 @db_session
 def get_secure_qstn(userName):
@@ -70,7 +74,7 @@ def modify_user(uid,params):
         keys = {'realName':'real_name','gender':'gender',
             'age':'age','homeAddr':'home_addr','companyAddr':'company_addr',
             'height':'height','weight':'weight'}
-        for k,v in params:
+        for k,v in params.items():
             setattr(u,keys[k],v)
             return True
 
@@ -81,6 +85,7 @@ def modify_psw(uid,params,make_pw):
         opsw = make_pw(params['oldPsw'],u.name)
         if u.passwd == opsw:
             u.passwd = make_pw(params['newPsw'],u.name)
+            return True
 
 @db_session
 def setting_trust(uid,params):
