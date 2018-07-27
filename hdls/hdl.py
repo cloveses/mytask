@@ -52,7 +52,14 @@ class RegHdl(BaseHandler):
 class InitHdl(BaseHandler):
 
     def post(self):
-        self.write_json({'status':0})
+        self.write_json({"data":[{"questionId":"1", "question":"ssssss","questionId":"2", 
+            "question":"2ssssss","questionId":"3", "question":"3ssssss"},
+        [{"questionnaireId":"1","questionnaireTitle":"问卷调查01","questionnaireAnswers":
+            [{"questionnaireAnswerId":"001","questionnaireAnswer":"答案01"},
+            {"questionnaireAnswerId":"002","questionnaireAnswer":"答案02"},
+            {"questionnaireAnswerId":"003","questionnaireAnswer":"答案03"},
+            {"questionnaireAnswerId":"004","questionnaireAnswer":"答案04"}] } ] ],
+             "msg":"", "status":0})
 
 @route('/app/v1/saveSecrityQuestion')
 class SecrityQustHdl(BaseHandler):
@@ -91,7 +98,7 @@ class LoginHdl(BaseHandler):
         params = self.get_params(keys)
         if all(params.values()):
             psw = make_pw(params['psw'],params['userName'])
-            u = datamgr.user_verify(params['userName'],psw)
+            u = datamgr.user_verify(params['userName'],psw,make_token)
             if u:
                 self.write_json({'status':0,'msg':'登录成功！','data':u})
             else:
@@ -234,8 +241,9 @@ class LogoutHdl(BaseHandler):
         params = self.get_params(keys)
         if params['userId']:
             uid = int(params['userId'])
-            self.write_json({'status':0})
-            return
+            if datamgr.logout(uid):
+                self.write_json({'status':0})
+                return
         self.write_json({'status':1,'msg':'失败！'})
 
 @route('/app/v1/trusts')

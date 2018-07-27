@@ -24,6 +24,7 @@ post_item = [
             'area':'abc','number':'abc','relationship':'abc'}),
     ('/queryTrust',{'userId':'1','trustId':'1'}),
     ('/deleteTrust',{'userId':'1','trustId':'1'}),
+    ('/init',{}),
 
 
     ]

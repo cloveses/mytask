@@ -32,10 +32,12 @@ def add_question_naire(params):
         u.question_naires.add(qn)
 
 @db_session
-def user_verify(username,psw):
+def user_verify(username,psw,make_token):
     u = select(u for u in User if u.name == username and u.passwd == psw).first()
     if u:
-        return {'userName':u.name,'userId':u.id}
+        token = make_token(','.join((u.name,str(u.id))))
+        u.token = token
+        return {'userName':u.name,'userId':u.id,'token':token}
 
 @db_session
 def get_secure_qstn(userName):
@@ -108,6 +110,11 @@ def add_feed_back(uid,params):
                 score=int(params['score']),user=u)
         u.feed_backs.add(fb)
         return True
+
+@db_session
+def logout(uid):
+    u = User[uid]
+    u.token = ''
 
 @db_session
 def get_trusts(uid):
