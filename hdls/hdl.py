@@ -52,8 +52,8 @@ class RegHdl(BaseHandler):
 class InitHdl(BaseHandler):
 
     def post(self):
-        self.write_json({"data":[{"questionId":"1", "question":"ssssss","questionId":"2", 
-            "question":"2ssssss","questionId":"3", "question":"3ssssss"},
+        self.write_json({"data":[[{"questionId":"1", "question":"ssssss"},{"questionId":"2", 
+                            "question":"2ssssss"},{"questionId":"3", "question":"3ssssss"}],
         [{"questionnaireId":"1","questionnaireTitle":"问卷调查01","questionnaireAnswers":
             [{"questionnaireAnswerId":"001","questionnaireAnswer":"答案01"},
             {"questionnaireAnswerId":"002","questionnaireAnswer":"答案02"},
