@@ -1,4 +1,5 @@
 import hashlib
+import time
 import json
 import tornado.web
 from tweb.web import BaseHandler, route
@@ -13,6 +14,13 @@ def make_pw(psw,salt):
         ret = hashlib.sha512(psw).hexdigest()
         
     return ret
+
+def make_token(s):
+    curr_time = ''.join((str(time.time()),time.ctime(),
+        time.asctime(),str(time.clock())))
+    md5_str = make_pw(s,curr_time)
+    sha1_str = hashlib.sha1(','.join((s,curr_time)).encode()).hexdigest()
+    return make_pw(md5_str,sha1_str)
 
 @route('/')
 class IndexHdl(BaseHandler):
@@ -31,9 +39,9 @@ class RegHdl(BaseHandler):
             params['psw'] = make_pw(params['psw'],params['userName'])
             keys_dict = {'userName':'name','psw':'passwd','gender':'gender','age':'age'}
             params = {v:params[k] for k,v in keys_dict.items()}
-            res = datamgr.add_user(params)
+            res = datamgr.add_user(params,make_token)
             if res:
-                self.write_json({'status':0})
+                self.write_json({'status':0,'userId':res[0],'token':res[1]})
             else:
                 if res is not None:
                     self.write_json({'status':1,'msg':'用户名已被注册！'})

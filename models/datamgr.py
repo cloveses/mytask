@@ -1,10 +1,13 @@
 from .model import *
 
 @db_session
-def add_user(params):
+def add_user(params,make_token):
     if not exists(u for u in User if u.name==params['name']):
-        User(**params)
-        return True
+        u = User(**params)
+        commit()
+        token = make_token(','.join((u.name,str(u.id))))
+        u.token = token
+        return (u.id,token)
     else:
         return False
 

@@ -8,6 +8,7 @@ class User(db.Entity):
     passwd = Required(str)
     gender = Required(int)
     age = Required(str)
+    token = Optional(str)
     secure_questions = Set('SecureQuestion')
     qestion_naires = Set('QestionNaire')
     feed_backs = Set('FeedBack')
