@@ -7,12 +7,17 @@ from models import datamgr
 def make_pw(psw,salt):
     psw = ''.join((psw,salt))
     psw = psw.encode()
-    return hashlib.sha3_512(psw).hexdigest()
+    try:
+        ret = hashlib.sha3_512(psw).hexdigest()
+    except:
+        ret = hashlib.sha512(psw).hexdigest()
+        
+    return ret
 
 @route('/')
 class IndexHdl(BaseHandler):
 
-    def post(self):
+    def get(self):
         self.write_json({"hint_info":'self.hint_info'})
 
 @route('/app/v1/register')
@@ -254,7 +259,7 @@ class ModifyTrustHdl(BaseHandler):
             if datamgr.modify_trust(tid,params):
                 self.write_json({'status':0})
                 return
-        self.write_json({'status':1,'msg':'失败！'})
+        self.write_json({'status':1,'msg':'修改信任组失败！'})
 
 @route('/app/v1/deleteTrust')
 class DeleteTrustHdl(BaseHandler):
@@ -267,7 +272,7 @@ class DeleteTrustHdl(BaseHandler):
             if datamgr.delete_trust(uid,tid):
                 self.write_json({'status':0})
                 return
-        self.write_json({'status':1,'msg':'失败！'})
+        self.write_json({'status':1,'msg':'删除信任组失败！'})
 
 @route('/app/v1/queryTrust')
 class QueryTrust(BaseHandler):
@@ -281,4 +286,4 @@ class QueryTrust(BaseHandler):
             if data:
                 self.write_json({'status':0,'data':data})
                 return
-        self.write_json({'status':1,'msg':'失败！'})
+        self.write_json({'status':1,'msg':'查询信任组失败！'})

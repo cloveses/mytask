@@ -31,8 +31,18 @@ post_item = [
 def link(item):
     textmod=item[1]
     textmod = parse.urlencode(textmod).encode(encoding='utf-8')
+
+    # 测试本地服务器
     header_dict = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0)',"Content-Type": "application/x-www-form-urlencoded"}
     url=''.join(('http://127.0.0.1:8000',base_url,item[0]))
+
+    # 测试远程服务器
+    # header_dict = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',"Content-Type": "application/x-www-form-urlencoded",
+    # 'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+    # 'Accept-Language':'en-US,en;q=0.5',
+    # 'Accept-Encoding':'gzip, deflate'}
+    # url=''.join(('http://cloveses.pythonanywhere.com',base_url,item[0]))
+
     req = request.Request(url=url,data=textmod,headers=header_dict)
     res = request.urlopen(req)
     res = res.read()

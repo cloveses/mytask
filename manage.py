@@ -5,21 +5,23 @@ import sys
 import settings
 from tornado import web, httpserver, ioloop
 from tweb.url_map import load_handlers
+import tornado.wsgi
 
 handlers,domain_handlers = load_handlers(settings.HDL_DIR)
 
-application = web.Application(handlers, **settings.web_server)
+
+application = tornado.wsgi.WSGIApplication(handlers, **settings.web_server)
 for (host_pattern, handlers) in domain_handlers:
     application.add_handlers(host_pattern, handlers)
 
-http_server = httpserver.HTTPServer(application, xheaders=True)
+#http_server = httpserver.HTTPServer(application, xheaders=True)
 
-port = int(sys.argv[1]) if len(sys.argv) > 1 else settings.port
+#port = int(sys.argv[1]) if len(sys.argv) > 1 else settings.port
 
-http_server.listen(port)
-print()
-print('Server is starting...')
-print('Server\'s port:',port)
+#http_server.listen(port)
+#print()
+#print('Server is starting...')
+#print('Server\'s port:',port)
 
-if __name__ == '__main__':
-    ioloop.IOLoop.instance().start()
+# if __name__ == '__main__':
+#     ioloop.IOLoop.instance().start()
