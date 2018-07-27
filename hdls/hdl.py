@@ -52,7 +52,7 @@ class RegHdl(BaseHandler):
 class InitHdl(BaseHandler):
 
     def post(self):
-        from .tmp_data import data
+        from hdls.tmp_data import data
         self.write_json({"data":data,"msg":"", "status":0})
 
 @route('/app/v1/saveSecrityQuestion')
