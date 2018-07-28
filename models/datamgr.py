@@ -114,7 +114,9 @@ def add_feed_back(uid,params):
 @db_session
 def logout(uid):
     u = User[uid]
-    u.token = ''
+    if u:
+        u.token = ''
+        return True
 
 @db_session
 def get_trusts(uid):
