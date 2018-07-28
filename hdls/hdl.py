@@ -41,7 +41,7 @@ class RegHdl(BaseHandler):
             params = {v:params[k] for k,v in keys_dict.items()}
             res = datamgr.add_user(params,make_token)
             if res:
-                self.write_json({'status':0,'userId':res[0],'token':res[1]})
+                self.write_json({'status':0,'data':{'userId':res[0],'token':res[1]}})
             else:
                 if res is not None:
                     self.write_json({'status':1,'msg':'用户名已被注册！'})
