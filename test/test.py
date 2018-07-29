@@ -8,7 +8,7 @@ post_item = [
             'questionId02':'2','answer02':'b','questionId03':'3','answer03':'c'}),
     # ('/questionnaire',{'userId':'1','questionnaireResult':json.dumps({'1':'abc','2':'def'})}),
     # ('/login',{'userName':'abc','psw':'abc'}),
-    # ('/obtainSecrityQuestion',{'userName':'abc'}),
+    ('/obtainSecrityQuestion',{'userName':'abc'}),
     # ('/forgetPswVerify',{'userName':'abc','questionId01':'1','answer01':'a',
     #         'questionId02':'2','answer02':'b','questionId03':'3','answer03':'c'}),
     # ('/forgetPsw',{'userName':'abc','newPsw':'abc'}),
