@@ -20,6 +20,8 @@ def add_secure_qestion(params):
         SecureQuestion(question_id=params['questionId03'],answer=params['answer03'],user=u))
     for qst in qsts:
         u.secure_questions.add(qst)
+    commit()
+    return qsts
 
 @db_session
 def add_question_naire(params):
