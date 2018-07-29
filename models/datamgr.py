@@ -117,8 +117,14 @@ def setting_trust(uid,params):
         del params['nickyName']
         t = Trust(user=u,**params)
         u.trusts.add(t)
+        commit()
+        trusts = u.trusts
+        data = [t.to_dict() for t in trusts]
+        for d in data:
+            d['nickyName'] = d['nicky_name']
+            del d['nicky_name']
 
-        return True
+        return data
 
 @db_session
 def add_feed_back(uid,params):

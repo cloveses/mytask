@@ -212,8 +212,9 @@ class SettingTrustHdl(BaseHandler):
         if all(params.values()):
             uid = int(params['userId'])
             del params['userId']
-            if datamgr.setting_trust(uid,params):
-                self.write_json({'status':0})
+            data = datamgr.setting_trust(uid,params)
+            if data:
+                self.write_json({'status':0,'data':data})
                 return
         self.write_json({'status':1,'msg':'设置失败！'})
 
