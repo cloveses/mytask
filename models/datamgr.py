@@ -81,7 +81,13 @@ def modify_user(uid,params):
             'height':'height','weight':'weight'}
         for k,v in params.items():
             setattr(u,keys[k],v)
-            return True
+        commit()
+        ret = u.to_dict()
+        kvs = {'name':'userName','real_name':'realName','home_addr':'homeAddr','rcompany_addr':'companyAdd'}
+        for k,v in kvs.items():
+            ret[v] = ret[k]
+            del ret[k]
+        return ret
 
 @db_session
 def modify_psw(uid,params,make_pw):
