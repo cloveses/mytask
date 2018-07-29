@@ -257,9 +257,9 @@ class TrustsHdl(BaseHandler):
             uid = int(params['userId'])
             data = datamgr.get_trusts(uid)
             if data:
-##                self.write_json({'status':0,'data':data})
-                from .tmp_data import data_trust
-                self.write_json(data_trust)
+                self.write_json({'status':0,'trusts':data})
+                # from .tmp_data import data_trust
+                # self.write_json(data_trust)
                 return
         self.write_json({'status':1,'msg':'失败！'})
 
