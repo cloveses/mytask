@@ -100,7 +100,7 @@ def setting_trust(uid,params):
         del params['nickyName']
         t = Trust(user=u,**params)
         u.trusts.add(t)
-        
+
         return True
 
 @db_session
@@ -121,7 +121,7 @@ def logout(uid):
 
 @db_session
 def get_trusts(uid):
-    u = User[uid]
+    u = User[intsssss(uid)]
     if u:
         return [t.to_dict() for t in u.trusts]
 
