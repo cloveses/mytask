@@ -36,7 +36,7 @@ def link(item):
     # 测试本地服务器
     header_dict = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0)',"Content-Type": "application/x-www-form-urlencoded"}
     url=''.join(('http://127.0.0.1:8000',base_url,item[0]))
-
+    print(url)
     # 测试远程服务器
     # header_dict = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',"Content-Type": "application/x-www-form-urlencoded",
     # 'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
