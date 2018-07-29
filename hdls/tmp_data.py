@@ -48,3 +48,31 @@ data = { 'secrityQuestions':
             {"questionnaireAnswerId":"003","questionnaireAnswer":"答案03"},
             {"questionnaireAnswerId":"004","questionnaireAnswer":"答案04"}]},]
     }
+
+data_trust =  {
+    "data": {
+        "trusts": [
+            {
+                "area": "杭州", 
+                "email": "masan@qq.com", 
+                "relationship": "朋友", 
+                "nicky_name": "马三", 
+                "country": "中国", 
+                "number": "135889636698", 
+                "id": 3, 
+                "user": 16
+            }, 
+            {
+                "area": "杭州", 
+                "email": "lilili@qq.com", 
+                "relationship": "同事", 
+                "nicky_name": "李丽丽", 
+                "country": "中国", 
+                "number": "13588741736", 
+                "id": 2, 
+                "user": 16
+            }
+        ]
+    }, 
+    "status": 0
+}
