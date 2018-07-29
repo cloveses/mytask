@@ -53,6 +53,19 @@ def get_secure_qstn(userName):
         return qstns
 
 @db_session
+def get_ss_qstn(userName):
+    u = select(u for u in User if u.name == userName).first()
+    if u:
+        qs = select(q for q in SsQuestion)[:]
+        if not qs:
+            SsQuestion(question='aaa')
+            SsQuestion(question='bbb')
+            SsQuestion(question='ccc')
+        commit()
+        qs = select(q for q in SsQuestion)[:]
+        return qs
+
+@db_session
 def verify_secure_question(name,qstn_data):
     u = select(u for u in User if u.name == name).first()
     if u:

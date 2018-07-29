@@ -40,6 +40,9 @@ class SecureQuestion(db.Entity):
     answer = Required(str)
     user = Required(User,reverse='secure_questions')
 
+class SsQuestion(db.Entity):
+    question = Required(str)
+
 class QestionNaire(db.Entity):
     question_id = Required(str)
     answer = Required(str)

@@ -110,12 +110,12 @@ class ObtainSecrityHdl(BaseHandler):
         keys = ('userName',)
         params = self.get_params(keys)
         if all(params.values()):
-            qstns = datamgr.get_secure_qstn(params['userName'])
+            qstns = datamgr.get_ss_qstn(params['userName'])
             if qstns:
                 res = {'status':0}
                 data = []
                 for qstn in qstns:
-                    data.append({'questionId':qstn.question_id,'question':qstn.answer})
+                    data.append({'questionId':qstn.id,'question':qstn.question})
                 res['data'] = {'secrityQuestions':data}
                 self.write_json(res)
                 return
