@@ -3,7 +3,7 @@ import json
 
 base_url = '/app/v1'
 post_item = [
-    ('/register',{'userName':'abcd','psw':'abc','gender':'2','age':'23-8'}),
+    ('/register',{'userName':'abc','psw':'abc','gender':'2','age':'23-8'}),
     ('/saveSecrityQuestion',{'userId':'1','questionId01':'1','answer01':'a',
             'questionId02':'2','answer02':'b','questionId03':'3','answer03':'c'}),
     ('/questionnaire',{'userId':'1','questionnaireResult':json.dumps({'1':'abc','2':'def'})}),

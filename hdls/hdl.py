@@ -67,7 +67,7 @@ class SecrityQustHdl(BaseHandler):
             for key in ('userId','questionId01','questionId02','questionId03'):
                 params[key] = int(params[key])
             datamgr.add_secure_qestion(params)
-            self.write_json({'status':0})
+            self.write_json({'status':0,'msg':'安全问题保存成功！'})
         else:
             self.write_json({'status':1,'msg':'请完整填写数据！'})
 
