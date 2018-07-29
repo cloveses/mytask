@@ -115,7 +115,7 @@ class ObtainSecrityHdl(BaseHandler):
                 res = {'status':0}
                 data = []
                 for qstn in qstns:
-                    data.append({'questionId':qstn.question_id,'answer':qstn.answer})
+                    data.append({'questionId':qstn.question_id,'question':qstn.answer})
                 res['data'] = {'secrityQuestions':data}
                 self.write_json(res)
                 return
