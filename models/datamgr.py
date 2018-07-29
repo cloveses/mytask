@@ -83,7 +83,7 @@ def modify_user(uid,params):
             setattr(u,keys[k],v)
         commit()
         ret = u.to_dict()
-        kvs = {'name':'userName','real_name':'realName','home_addr':'homeAddr','company_addr':'companyAdd'}
+        kvs = {'name':'userName','real_name':'realName','home_addr':'homeAddr','company_addr':'companyAddr'}
         for k,v in kvs.items():
             ret[v] = ret[k]
             del ret[k]
