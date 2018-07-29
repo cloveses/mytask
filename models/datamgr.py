@@ -76,6 +76,8 @@ def get_user_info(uid):
             ret[v] = ret[k]
             del ret[k]
         ret = {k:v if v else '' for k,v in ret.items()}
+        if ret['gender'] == '':
+            ret['gender'] = 0
         return ret
 
 @db_session
@@ -94,6 +96,8 @@ def modify_user(uid,params):
             ret[v] = ret[k]
             del ret[k]
         ret = {k:v if v else '' for k,v in ret.items()}
+        if ret['gender'] == '':
+            ret['gender'] = 0
         return ret
 
 @db_session
