@@ -70,7 +70,12 @@ def new_psw(name,psw):
 def get_user_info(uid):
     u = select(u for u in User if u.id == uid).first()
     if u:
-        return {'userName':u.name,'age':u.age}
+        ret = u.to_dict()
+        kvs = {'name':'userName','real_name':'realName','home_addr':'homeAddr','company_addr':'companyAddr'}
+        for k,v in kvs.items():
+            ret[v] = ret[k]
+            del ret[k]
+        return ret
 
 @db_session
 def modify_user(uid,params):
