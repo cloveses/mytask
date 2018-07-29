@@ -93,8 +93,9 @@ def get_user_info(uid):
             ret[v] = ret[k]
             del ret[k]
         ret = {k:v if v else '' for k,v in ret.items()}
-        if ret['gender'] == '':
-            ret['gender'] = 0
+        for k in ('gender','height','weight'):
+            if not ret[k]:
+                ret[k] = 0
         return ret
 
 @db_session
@@ -113,8 +114,9 @@ def modify_user(uid,params):
             ret[v] = ret[k]
             del ret[k]
         ret = {k:v if v else '' for k,v in ret.items()}
-        if ret['gender'] == '':
-            ret['gender'] = 0
+        for k in ('gender','height','weight'):
+            if not ret[k]:
+                ret[k] = 0
         return ret
 
 @db_session
@@ -163,7 +165,13 @@ def logout(uid):
 def get_trusts(uid):
     u = User[int(uid)]
     if u:
-        return [t.to_dict() for t in u.trusts]
+        trusts = [t for t in u.trusts]
+        data = []
+        for t in trusts:
+            data.append({'area':t.area,'email':t.email,'relationship':t.relationship,
+                'nickyName':t.nicky_name,'country':t.country,'number':t.number,'id':t.id,'user':t.user.id})
+        return data
+
 
 @db_session
 def modify_trust(tid,params):
