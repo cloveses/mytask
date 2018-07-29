@@ -41,7 +41,7 @@ class RegHdl(BaseHandler):
             params = {v:params[k] for k,v in keys_dict.items()}
             res = datamgr.add_user(params,make_token)
             if res:
-                self.write_json({'status':0,'data':{'userId':res[0],'token':res[1]}})
+                self.write_json({'status':0,'data':{'userId':res[0],'token':res[1],'userName':res[2]}})
             else:
                 if res is not None:
                     self.write_json({'status':1,'msg':'用户名已被注册！'})
@@ -110,8 +110,10 @@ class ObtainSecrityHdl(BaseHandler):
             qstns = datamgr.get_secure_qstn(params['userName'])
             if qstns:
                 res = {'status':0}
+                data = {}
                 for qstn in qstns:
-                    res[qstn.question_id] = qstn.answer
+                    data[qstn.question_id] = qstn.answer
+                res.update(data)
                 self.write_json(res)
                 return
         self.write_json({'status':1,'msg':'未设置安全问题或用户名错误！'})

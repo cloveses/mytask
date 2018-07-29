@@ -4,10 +4,10 @@ from .model import *
 def add_user(params,make_token):
     if not exists(u for u in User if u.name==params['name']):
         u = User(**params)
-        commit()
         token = make_token(','.join((u.name,str(u.id))))
         u.token = token
-        return (u.id,token)
+        commit()
+        return (u.id,token,u.name)
     else:
         return False
 
@@ -100,6 +100,7 @@ def setting_trust(uid,params):
         del params['nickyName']
         t = Trust(user=u,**params)
         u.trusts.add(t)
+        
         return True
 
 @db_session
