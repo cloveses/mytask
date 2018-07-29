@@ -121,7 +121,7 @@ def logout(uid):
 
 @db_session
 def get_trusts(uid):
-    u = User[intsssss(uid)]
+    u = User[int(uid)]
     if u:
         return [t.to_dict() for t in u.trusts]
 
