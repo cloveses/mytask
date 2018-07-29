@@ -113,7 +113,7 @@ class ObtainSecrityHdl(BaseHandler):
                 data = []
                 for qstn in qstns:
                     data.append({'questionId':qstn.question_id,'answer':qstn.answer})
-                res['data'] = data
+                res['data'] = {'secrityQuestions':data}
                 self.write_json(res)
                 return
         self.write_json({'status':1,'msg':'未设置安全问题或用户名错误！'})
