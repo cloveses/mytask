@@ -14,14 +14,16 @@ def add_user(params,make_token):
 @db_session
 def add_secure_qestion(params):
     u = User[params['userId']]
-    qsts =( 
-        SecureQuestion(question_id=params['questionId01'],answer=params['answer01'],user=u),
-        SecureQuestion(question_id=params['questionId02'],answer=params['answer02'],user=u),
-        SecureQuestion(question_id=params['questionId03'],answer=params['answer03'],user=u))
-    for qst in qsts:
-        u.secure_questions.add(qst)
-    commit()
-    return qsts
+    if u:
+        u.secure_questions.clear()
+        qsts =( 
+            SecureQuestion(question_id=params['questionId01'],answer=params['answer01'],user=u),
+            SecureQuestion(question_id=params['questionId02'],answer=params['answer02'],user=u),
+            SecureQuestion(question_id=params['questionId03'],answer=params['answer03'],user=u))
+        for qst in qsts:
+            u.secure_questions.add(qst)
+        commit()
+        return qsts
 
 @db_session
 def add_question_naire(params):
