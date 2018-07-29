@@ -75,6 +75,7 @@ def get_user_info(uid):
         for k,v in kvs.items():
             ret[v] = ret[k]
             del ret[k]
+        ret = {k:v if v else '' for k,v in ret.items()}
         return ret
 
 @db_session
@@ -92,6 +93,7 @@ def modify_user(uid,params):
         for k,v in kvs.items():
             ret[v] = ret[k]
             del ret[k]
+        ret = {k:v if v else '' for k,v in ret.items()}
         return ret
 
 @db_session
