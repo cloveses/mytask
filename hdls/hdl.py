@@ -182,8 +182,9 @@ class ModifyProfileHdl(BaseHandler):
                 paramas['weight'] = int(paramas['weight'])
             uid = int(paramas['userId'])
             del paramas['userId']
-            if datamgr.modify_user(uid,paramas):
-                self.write_json({'status':0})
+            data = datamgr.modify_user(uid,paramas)
+            if data:
+                self.write_json({'status':0,'data':data})
                 return
         self.write_json({'status':1,'msg':'信息修改失败！'})
 
