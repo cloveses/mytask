@@ -42,6 +42,7 @@ class SecureQuestion(db.Entity):
 
 class SsQuestion(db.Entity):
     question = Required(str)
+    group = Required(int)
 
 class QestionNaire(db.Entity):
     question_id = Required(str)
