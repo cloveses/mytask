@@ -12,6 +12,18 @@ def add_user(params,make_token):
         return False
 
 @db_session
+def get_ss_questions():
+    groups = select(s.group for s in SsQuestion)[:]
+    groups.sort()
+    datas = []
+    for group in groups:
+        qstns = select(s for s in SsQuestion if s.group == group)
+        for qstn in qstns:
+            datas.append(qstn.to_dict())
+    return {'secrityQuestions':datas}
+
+
+@db_session
 def add_secure_qestion(params):
     u = User[params['userId']]
     if u:
@@ -50,20 +62,24 @@ def get_secure_qstn(userName):
         # return {'userName':u.name,'id':u.id}
         qstns = list(u.secure_questions)
         qstns.sort(key=lambda q:q.id)
-        return qstns
+        datas = []
+        for qstn in qstns:
+            datas.append({'questionId':qstn.question_id,
+                'question':SsQuestion[qstn.id].question})
+        return datas
 
-@db_session
-def get_ss_qstn(userName):
-    u = select(u for u in User if u.name == userName).first()
-    if u:
-        qs = select(q for q in SsQuestion)[:]
-        if not qs:
-            SsQuestion(question='aaa')
-            SsQuestion(question='bbb')
-            SsQuestion(question='ccc')
-        commit()
-        qs = select(q for q in SsQuestion)[:]
-        return qs
+# @db_session
+# def get_ss_qstn(userName):
+#     u = select(u for u in User if u.name == userName).first()
+#     if u:
+#         qs = select(q for q in SsQuestion)[:]
+#         if not qs:
+#             SsQuestion(question='aaa')
+#             SsQuestion(question='bbb')
+#             SsQuestion(question='ccc')
+#         commit()
+#         qs = select(q for q in SsQuestion)[:]
+#         return qs
 
 @db_session
 def verify_secure_question(name,qstn_data):

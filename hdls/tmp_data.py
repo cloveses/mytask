@@ -46,7 +46,8 @@ data = { 'secrityQuestions':
             [{"questionnaireAnswerId":"001","questionnaireAnswer":"答案01"},
             {"questionnaireAnswerId":"002","questionnaireAnswer":"答案02"},
             {"questionnaireAnswerId":"003","questionnaireAnswer":"答案03"},
-            {"questionnaireAnswerId":"004","questionnaireAnswer":"答案04"}]},]
+            {"questionnaireAnswerId":"004","questionnaireAnswer":"答案04"}]},],
+    'status':0,
     }
 
 data_trust =  {

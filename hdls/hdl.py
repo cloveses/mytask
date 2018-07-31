@@ -53,6 +53,8 @@ class InitHdl(BaseHandler):
 
     def post(self):
         from .tmp_data import data
+        datas = datamgr.get_ss_questions()
+        data.update(datas)
         self.write_json({"data":data,"msg":"", "status":0})
 
 @route('/app/v1/saveSecrityQuestion')
@@ -110,12 +112,9 @@ class ObtainSecrityHdl(BaseHandler):
         keys = ('userName',)
         params = self.get_params(keys)
         if all(params.values()):
-            qstns = datamgr.get_ss_qstn(params['userName'])
-            if qstns:
+            data = datamgr.get_secure_qstn(params['userName'])
+            if data:
                 res = {'status':0}
-                data = []
-                for qstn in qstns:
-                    data.append({'questionId':qstn.id,'question':qstn.question})
                 res['data'] = {'secrityQuestions':data}
                 self.write_json(res)
                 return
