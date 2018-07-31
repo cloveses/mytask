@@ -137,12 +137,10 @@ def setting_trust(uid,params):
         t = Trust(user=u,**params)
         u.trusts.add(t)
         commit()
-        trusts = u.trusts
-        data = [t.to_dict() for t in trusts]
-        for d in data:
-            d['nickyName'] = d['nicky_name']
-            del d['nicky_name']
-
+        data = t.to_dict()
+        data['nickyName'] = data['nicky_name']
+        del data['nicky_name']
+        data['user'] = t.user.id
         return data
 
 @db_session
