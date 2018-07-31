@@ -256,7 +256,7 @@ class TrustsHdl(BaseHandler):
         if params['userId']:
             uid = int(params['userId'])
             data = datamgr.get_trusts(uid)
-            if data:
+            if data is not None:
                 self.write_json({'status':0,'data':{'trusts':data}})
                 # from .tmp_data import data_trust
                 # self.write_json(data_trust)
