@@ -175,6 +175,9 @@ def get_trusts(uid):
 
 @db_session
 def modify_trust(tid,params):
+    if 'nickyName' in params:
+        params['nicky_name'] = params['nickyName']
+        del params['nickyName']
     t = select(t for t in Trust if t.id==tid).first()
     if t:
         for k,v in params.items():
