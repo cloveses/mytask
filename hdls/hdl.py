@@ -275,8 +275,9 @@ class ModifyTrustHdl(BaseHandler):
             del params['userId']
             tid = int(params['trustId'])
             del params['trustId']
-            if datamgr.modify_trust(tid,params):
-                self.write_json({'status':0})
+            data = datamgr.modify_trust(tid,params)
+            if data:
+                self.write_json({'status':0,'data':data})
                 return
         self.write_json({'status':1,'msg':'修改信任组失败！'})
 

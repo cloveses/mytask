@@ -169,7 +169,8 @@ def get_trusts(uid):
         data = []
         for t in trusts:
             data.append({'area':t.area,'email':t.email,'relationship':t.relationship,
-                'nickyName':t.nicky_name,'country':t.country,'number':t.number,'id':t.id,'user':t.user.id})
+                'nickyName':t.nicky_name,'country':t.country,'number':t.number,
+                'id':t.id,'user':t.user.id})
         return data
 
 
@@ -182,7 +183,12 @@ def modify_trust(tid,params):
     if t:
         for k,v in params.items():
             setattr(t,k,v)
-        return True
+        commit()
+        data = t.to_dict()
+        data['nickyName'] = data['nicky_name']
+        del data['nicky_name']
+        data['user'] = t.user.id
+        return data
 
 @db_session
 def delete_trust(uid,tid):
