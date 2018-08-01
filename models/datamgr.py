@@ -65,7 +65,7 @@ def get_secure_qstn(userName):
         datas = []
         for qstn in qstns:
             datas.append({'questionId':qstn.question_id,
-                'question':SsQuestion[qstn.id].question})
+                'question':SsQuestion[qstn.question_id].question})
         return datas
 
 # @db_session

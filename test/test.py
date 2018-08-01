@@ -3,14 +3,14 @@ import json
 
 base_url = '/app/v1'
 post_item = [
-    ('/register',{'userName':'abc','psw':'abc','gender':'2','age':'23-8'}),
-    ('/saveSecrityQuestion',{'userId':'1','questionId01':'1','answer01':'a',
-            'questionId02':'8','answer02':'b','questionId03':'14','answer03':'c'}),
+    # ('/register',{'userName':'abc','psw':'abc','gender':'2','age':'23-8'}),
+    # ('/saveSecrityQuestion',{'userId':'1','questionId01':'1','answer01':'a',
+    #         'questionId02':'8','answer02':'b','questionId03':'14','answer03':'c'}),
     # ('/questionnaire',{'userId':'1','questionnaireResult':json.dumps({'1':'abc','2':'def'})}),
     # ('/login',{'userName':'abc','psw':'abc'}),
     ('/obtainSecrityQuestion',{'userName':'abc'}),
-    ('/forgetPswVerify',{'userName':'abc','questionId01':'1','answer01':'a',
-            'questionId02':'8','answer02':'b','questionId03':'14','answer03':'c'}),
+    # ('/forgetPswVerify',{'userName':'abc','questionId01':'1','answer01':'a',
+    #         'questionId02':'8','answer02':'b','questionId03':'14','answer03':'c'}),
     # ('/forgetPsw',{'userName':'abc','newPsw':'abc'}),
     # ('/obtainProfile',{'userId':'1',}),
     # ('/modifyProfile',{'userId':'1','realName':'abc','gender':'1','age':'11','companyAddr':'fghf11'}),
@@ -25,7 +25,7 @@ post_item = [
     # ('/trusts',{'userId':'1'}),
     # ('/queryTrust',{'userId':'1','trustId':'1'}),
     # ('/deleteTrust',{'userId':'1','trustId':'1'}),
-    # ('/init',{}),
+    ('/init',{}),
 
 
     ]
