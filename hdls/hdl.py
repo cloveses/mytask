@@ -1,6 +1,8 @@
 import hashlib
 import time
 import json
+import calendar
+import datetime
 import tornado.web
 from tweb.web import BaseHandler, route
 from models import datamgr
@@ -21,6 +23,23 @@ def make_token(s):
     md5_str = make_pw(s,curr_time)
     sha1_str = hashlib.sha1(','.join((s,curr_time)).encode()).hexdigest()
     return make_pw(md5_str,sha1_str)
+
+def get_days(y,m,d,months=6):
+    days = -d
+    for i in range(months):
+        if m - 1 > 0:
+            m -= 1
+        else:
+            y -= 1
+            m = 12
+        days += calendar.monthrange(y,m)[1]
+    return days
+
+def get_date(y,m,d,months=6):
+    end_date = datetime.date(y,m,d)
+    days = get_days(y,m,d,months)
+    start_date = end_date - datetime.timedelta(days=days)
+    return start_date,end_date
 
 @route('/')
 class IndexHdl(BaseHandler):
@@ -134,6 +153,7 @@ class PswVerifyHdl(BaseHandler):
             qstn_data[params['questionId01']] = params['answer01']
             qstn_data[params['questionId02']] = params['answer02']
             qstn_data[params['questionId03']] = params['answer03']
+            print(qstn_data)
             if datamgr.verify_secure_question(params['userName'],qstn_data):
                 self.write_json({'status':0})
                 return
@@ -306,3 +326,19 @@ class QueryTrust(BaseHandler):
                 self.write_json({'status':0,'data':data})
                 return
         self.write_json({'status':1,'msg':'查询信任组失败！'})
+
+@route('/app/v1/homeStatistics')
+class HomeStatisticsHdl(BaseHandler):
+    def post(self):
+        keys = ('userId','currentMon',)
+        params = self.get_params(keys)
+        if all(params.values()):
+            uid = int(params['userId'])
+            ymd = params['currentMon'].split('-')
+            ymd = [int(n) for n in ymd]
+            start_date,end_date = get_date(*ymd)
+            self.write_json({'status':0,
+                'data':{'start_date':start_date.strftime('%Y-%m-%d %H:%M:%S'),
+                    'end_date':end_date.strftime('%Y-%m-%d %H:%M:%S')}})
+            return
+        self.write_json({'status':1,'msg':'失败！'})
