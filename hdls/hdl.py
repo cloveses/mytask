@@ -25,7 +25,7 @@ def make_token(s):
     return make_pw(md5_str,sha1_str)
 
 def get_days(y,m,d,months=6):
-    days = -d
+    days = 0
     for i in range(months):
         if m - 1 > 0:
             m -= 1
