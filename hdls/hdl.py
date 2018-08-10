@@ -342,3 +342,33 @@ class HomeStatisticsHdl(BaseHandler):
                     'end_date':end_date.strftime('%Y-%m-%d %H:%M:%S')}})
             return
         self.write_json({'status':1,'msg':'失败！'})
+
+
+@route('/app/v1/accountActive')
+class AccountActiveHdl(BaseHandler):
+    def post(self):
+        keys = ('userId','dateTime')
+        params = self.get_params(keys)
+        if all(params.values()):
+            uid = int(params['userId'])
+            dt = datetime.datetime.strptime(params['dateTime'],
+                '%Y-%m-%d %H:%M:%S')
+            if datamgr.save_loginlog(uid,dt):
+                self.write_json({'status':0})
+                return
+        self.write_json({'status':1,'msg':'失败！'})
+
+@route('/app/v1/uploadLocation')
+class UploadLocationHdl(BaseHandler):
+    def post(self):
+        keys = ('userId','longitude','latitude','address','areaType')
+        params = self.get_params(keys)
+        if all(params.values()):
+            uid = int(params['userId'])
+            params['area_type'] = params['areaType']
+            del params['areaType']
+            del params['userId']
+            if datamgr.save_used_location(uid,params):
+                self.write_json({'status':0})
+                return
+        self.write_json({'status':1,'msg':'失败！'})

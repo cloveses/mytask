@@ -1,4 +1,5 @@
 import os
+import datetime
 from pony.orm import *
 
 db = Database()
@@ -13,6 +14,8 @@ class User(db.Entity):
     qestion_naires = Set('QestionNaire')
     feed_backs = Set('FeedBack')
     trusts = Set('Trust')
+    loginlogs = Set('LoginLog')
+    usedlocations = Set('UsedLocation')
 
     real_name = Optional(str)
     home_addr = Optional(str)
@@ -49,6 +52,17 @@ class QestionNaire(db.Entity):
     answer = Required(str)
     user = Required(User,reverse='qestion_naires')
 
+
+class LoginLog(db.Entity):
+    date_time = Required(datetime.datetime)
+    user = Required(User,reverse='loginlogs')
+
+class UsedLocation(db.Entity):
+    longitude = Required(str)
+    latitude = Required(str)
+    address = Required(str)
+    area_type = Required(str)
+    user = Required(User,reverse='usedlocations')
 
 set_sql_debug(True)
 filename = os.path.join(os.path.abspath(os.curdir),'my.db')

@@ -218,3 +218,19 @@ def query_trust(uid,tid):
     t = select(t for t in Trust if t.id==tid).first()
     if t:
         return t.to_dict()
+
+@db_session
+def save_loginlog(uid,dt):
+    u = User[uid]
+    if u:
+        log = LoginLog(date_time=dt,user=u)
+        u.loginlogs.add(log)
+        return True
+
+@db_session
+def save_used_location(uid,params):
+    u = User[uid]
+    if u:
+        loc = UsedLocation(user=u,**params)
+        u.usedlocations.add(loc)
+        return True
