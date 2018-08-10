@@ -26,9 +26,9 @@ post_item = [
     # ('/queryTrust',{'userId':'1','trustId':'1'}),
     # ('/deleteTrust',{'userId':'1','trustId':'1'}),
     # ('/init',{}),
-    ('/homeStatistics',{'userId':'1','currentMon':'2018-5-12'}),
-    ('/accountActive',{'userId':'1','dateTime':'2018-5-12 3:3:3'}),
-    ('/uploadLocation',{'userId':'1','longitude':'23.3E','latitude':'12.5S','address':'myaddr','areaType':'其它区域'}),
+    ('/homeStatistics',{'userId':'1','currentMon':'2018-8-12'}),
+    # ('/accountActive',{'userId':'1','dateTime':'2018-5-12 3:3:3'}),
+    # ('/uploadLocation',{'userId':'1','longitude':'23.3E','latitude':'12.5S','address':'myaddr','areaType':'其它区域'}),
 
 
 

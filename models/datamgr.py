@@ -239,7 +239,7 @@ def save_used_location(uid,params):
 
 def get_datetimes(c_date,months=6):
     y,m,d = c_date.year,c_date.month,c_date.day
-    rets = [(datetime.datetime(y,1,1),datetime.datetime.now()),]
+    rets = [(datetime.datetime(y,m,1),datetime.datetime(y,m,d,23,59,59,999999)),]
     for i in range(months-1):
         if m - 1 > 0:
             m -= 1
@@ -257,14 +257,16 @@ def count_loginlog_count(uid,c_date):
     if u:
         totals = len(u.loginlogs)
         periods = get_datetimes(c_date)
-        start,end = periods[0]
+        for p in periods:
+            print(p[0])
+        start,end = periods[-1]
         curMonthCount = count(g for g in LoginLog 
-            if g.user == u and start <= g.date_time <= end)
-        othMonthCount = []
-        for start,end in periods[1:]:
-            counts = count(g for g in LoginLog 
             if g.user == u and between(g.date_time, start, end))
-            othMonthCount.append({'mon':start.month,'data':counts})
+        othMonthCount = []
+        for start,end in periods[:-1]:
+            counts = count(g for g in LoginLog 
+                if g.user == u and between(g.date_time, start, end))
+            othMonthCount.append({'mon':str(start.month) + '月','data':counts})
         return {"screenActive":
                     {"currentMonCount":curMonthCount,"totalCount":totals,"statisticsData":othMonthCount}}
 
@@ -273,6 +275,7 @@ def count_local_info(uid):
     u = User[uid]
     if u:
         local_infos = select((loc.area_type,count(loc.id)) for loc in UsedLocation if loc.user==u)
+        rets = []
         if local_infos:
             rets = [{'label':v[0],'data':v[1]} for v in local_infos]
-            return {"localInfo":rets}
+        return {"localInfo":rets}

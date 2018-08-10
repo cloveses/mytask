@@ -24,22 +24,22 @@ def make_token(s):
     sha1_str = hashlib.sha1(','.join((s,curr_time)).encode()).hexdigest()
     return make_pw(md5_str,sha1_str)
 
-def get_days(y,m,d,months=6):
-    days = 0
-    for i in range(months):
-        if m - 1 > 0:
-            m -= 1
-        else:
-            y -= 1
-            m = 12
-        days += calendar.monthrange(y,m)[1]
-    return days
+# def get_days(y,m,d,months=6):
+#     days = 0
+#     for i in range(months):
+#         if m - 1 > 0:
+#             m -= 1
+#         else:
+#             y -= 1
+#             m = 12
+#         days += calendar.monthrange(y,m)[1]
+#     return days
 
-def get_date(y,m,d,months=6):
-    end_date = datetime.date(y,m,d)
-    days = get_days(y,m,d,months)
-    start_date = end_date - datetime.timedelta(days=days)
-    return start_date,end_date
+# def get_date(y,m,d,months=6):
+#     end_date = datetime.date(y,m,d)
+#     days = get_days(y,m,d,months)
+#     start_date = end_date - datetime.timedelta(days=days)
+#     return start_date,end_date
 
 @route('/')
 class IndexHdl(BaseHandler):
@@ -330,17 +330,24 @@ class QueryTrust(BaseHandler):
 @route('/app/v1/homeStatistics')
 class HomeStatisticsHdl(BaseHandler):
     def post(self):
-        datamgr.count_local_info(1)
         keys = ('userId','currentMon',)
         params = self.get_params(keys)
         if all(params.values()):
             uid = int(params['userId'])
             ymd = params['currentMon'].split('-')
             ymd = [int(n) for n in ymd]
-            start_date,end_date = get_date(*ymd)
-            self.write_json({'status':0,
-                'data':{'start_date':start_date.strftime('%Y-%m-%d %H:%M:%S'),
-                    'end_date':end_date.strftime('%Y-%m-%d %H:%M:%S')}})
+            # start_date,end_date = get_date(*ymd)
+            c_date = datetime.date(*ymd)
+            from .tmp_data import home_static
+            rets = {}
+            rets.update(home_static)
+            screen_active = datamgr.count_loginlog_count(uid,c_date)
+            local_info = datamgr.count_local_info(uid)
+            if screen_active:
+                rets.update(screen_active)
+            if local_info:
+                rets.update(local_info)
+            self.write_json(rets)
             return
         self.write_json({'status':1,'msg':'失败！'})
 

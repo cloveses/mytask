@@ -77,3 +77,11 @@ data_trust =  {
     }, 
     "status": 0
 }
+
+home_static = {"status":0,"msg":"成功",
+    "data":{"callPhone":
+        {"currentMonCount":120,"totalCount":470,
+            "statisticsData":[{"mon":"2月","data":100},{"mon":"3月","data":80},{"mon":"4月","data":120},{"mon":"5月","data":150},{"mon":"6月","data":100},{"mon":"7月","data":100}]},
+        "shortMsg":
+        {"currentMonCount":120,"totalCount":470,"statisticsData":[{"mon":"2月","data":100},{"mon":"3月","data":80},{"mon":"4月","data":120},{"mon":"5月","data":150},{"mon":"6月","data":100},
+        {"mon":"7月","data":100}]}}}
