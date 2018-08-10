@@ -28,7 +28,7 @@ post_item = [
     # ('/init',{}),
     ('/homeStatistics',{'userId':'1','currentMon':'2018-5-12'}),
     ('/accountActive',{'userId':'1','dateTime':'2018-5-12 3:3:3'}),
-    ('/uploadLocation',{'userId':'1','longitude':'23.3E','latitude':'12.5S','address':'myaddr','areaType':'生活区域'}),
+    ('/uploadLocation',{'userId':'1','longitude':'23.3E','latitude':'12.5S','address':'myaddr','areaType':'其它区域'}),
 
 
 

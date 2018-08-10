@@ -330,6 +330,7 @@ class QueryTrust(BaseHandler):
 @route('/app/v1/homeStatistics')
 class HomeStatisticsHdl(BaseHandler):
     def post(self):
+        datamgr.count_local_info(1)
         keys = ('userId','currentMon',)
         params = self.get_params(keys)
         if all(params.values()):
