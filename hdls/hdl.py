@@ -344,9 +344,9 @@ class HomeStatisticsHdl(BaseHandler):
             screen_active = datamgr.count_loginlog_count(uid,c_date)
             local_info = datamgr.count_local_info(uid)
             if screen_active:
-                rets.update(screen_active)
+                rets['data'].update(screen_active)
             if local_info:
-                rets.update(local_info)
+                rets['data'].update(local_info)
             self.write_json(rets)
             return
         self.write_json({'status':1,'msg':'失败！'})
