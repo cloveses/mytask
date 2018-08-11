@@ -257,8 +257,8 @@ def count_loginlog_count(uid,c_date):
     if u:
         totals = len(u.loginlogs)
         periods = get_datetimes(c_date)
-        for p in periods:
-            print(p[0])
+        # for p in periods:
+        #     print(p[0])
         start,end = periods[-1]
         curMonthCount = count(g for g in LoginLog 
             if g.user == u and between(g.date_time, start, end))
