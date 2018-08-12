@@ -1,5 +1,6 @@
 from urllib import parse,request
 import json
+import time,random
 
 base_url = '/app/v1'
 post_item = [
@@ -53,6 +54,27 @@ def link(item):
     res = request.urlopen(req)
     res = res.read()
     print(json.loads(res.decode(encoding='utf-8')))
+
+# for i in range(5):
+#     post_item.append(('/register',
+#         {'userName':'absdc'+ str(random.randint(12,39)),
+#         'psw':'abc','gender':str(random.randint(1,2)),
+#         'age':random.choice(('8-12','13-16','17-25','26-40'))}))
+#     post_item.append(('/saveSecrityQuestion',{'userId':str(i+1),'questionId01':'1','answer01':'a',
+#             'questionId02':'2','answer02':'b','questionId03':'3','answer03':'c'}))
+#     for j in range(random.randint(50,99)):
+#         mytime = '{}-{}-{} {}:{}:{}'.format(random.choice(('2017','2018')),
+#             random.randint(1,12),random.randint(1,26),
+#             random.randint(0,23),random.randint(0,59),random.randint(0,59))
+#         post_item.append(('/accountActive',{'userId':str(i+1),
+#             'dateTime':mytime}))
+#     for k in range(random.randint(20,69)):
+#         post_item.append(('/uploadLocation',
+#             {'userId':str(i+1),
+#             'longitude':str(random.random()*random.randint(1,180))[:5] + 'E',
+#             'latitude':str(random.random()*random.randint(1,90))[:4] + 'N',
+#             'address':'myaddr'+str(random.randint(1,10)),
+#             'areaType':random.choice(('工作区域','医疗区域','生活区域','其它区域'))}))
 
 if __name__ == '__main__':
     for p in post_item:
