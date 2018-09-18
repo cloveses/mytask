@@ -5,10 +5,8 @@ import sys
 import settings
 from tornado import web, httpserver, ioloop
 from tweb.url_map import load_handlers
-from tweb.tools import init_secrity_qstn
 import tornado.wsgi
 
-init_secrity_qstn()
 handlers,domain_handlers = load_handlers(settings.HDL_DIR)
 
 

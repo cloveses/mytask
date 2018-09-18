@@ -2,9 +2,9 @@ from urllib import parse,request
 import json
 import time,random
 
-base_url = '/app/v1'
+base_url = ''
 post_item = [
-    # ('/register',{'userName':'abc','psw':'abc','gender':'2','age':'23-8'}),
+    ('/register',{'telephone':'12345678912','psw':'abc'}),
     # ('/saveSecrityQuestion',{'userId':'1','questionId01':'1','answer01':'a',
     #         'questionId02':'8','answer02':'b','questionId03':'14','answer03':'c'}),
     # ('/questionnaire',{'userId':'1','questionnaireResult':json.dumps({'1':'abc','2':'def'})}),
@@ -27,11 +27,9 @@ post_item = [
     # ('/queryTrust',{'userId':'1','trustId':'1'}),
     # ('/deleteTrust',{'userId':'1','trustId':'1'}),
     # ('/init',{}),
-    ('/homeStatistics',{'userId':'1','currentMon':'2018-8-12'}),
+    # ('/homeStatistics',{'userId':'1','currentMon':'2018-8-12'}),
     # ('/accountActive',{'userId':'1','dateTime':'2018-5-12 3:3:3'}),
     # ('/uploadLocation',{'userId':'1','longitude':'23.3E','latitude':'12.5S','address':'myaddr','areaType':'其它区域'}),
-
-
 
     ]
 
