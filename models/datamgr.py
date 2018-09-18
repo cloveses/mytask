@@ -25,6 +25,12 @@ def update_info(params):
                 setattr(u,k,v)
             return True
 
+@db_session
+def verify_user(params):
+    u = select(u for u in User if u.token == params['token'] and
+        u.telephone == params['telephone']).first()
+    if u:
+        return (u.id,u.is_vip())
 # @db_session
 # def get_ss_questions():
 #     groups = select(s.group for s in SsQuestion)[:]

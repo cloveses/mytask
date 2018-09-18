@@ -67,13 +67,27 @@ class UdtHdl(BaseHandler):
     def post(self):
         keys = ('name','gender','birthday','sign_txt','id','telephone')
         params = self.get_params(keys)
-        params = {k:v for k,v in params.items() if v}
         if params and params['id'] and params['telephone'] and all(params.values()):
             res = datamgr.update_info(params)
             if res:
                 self.write_json({'status':0})
         else:
             self.write_json({'status':1,'msg':'数据不完整！'})
+
+@route('/login')
+class LoginHdl(BaseHandler):
+    def post(self):
+        keys = ('telephone','token')
+        params = self.get_params(keys)
+        if params and all(params.values()):
+            res = datamgr.verify_user(params)
+            if res:
+                self.write_json({'status':0,'data':{'id':res[0],'is_vip':res[1]}})
+            else:
+                self.write_json({'status':1})
+        else:
+            self.write_json({'status':1,'msg':'数据不完整！'})
+
 
 # @route('/app/v1/register')
 # class RegHdl(BaseHandler):

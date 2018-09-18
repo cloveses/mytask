@@ -45,7 +45,7 @@ class User(db.Entity):
     historyes = Set('History')
     
     def is_vip(self):
-        if self.vip_end <= datetime.datetime.now():
+        if self.vip_end and self.vip_end <= datetime.datetime.now():
             return True
         else:
             return False
