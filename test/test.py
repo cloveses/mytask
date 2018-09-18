@@ -2,9 +2,12 @@ from urllib import parse,request
 import json
 import time,random
 
-base_url = ''
+base_url = '/api'
 post_item = [
-    ('/register',{'telephone':'12345678912','psw':'abc'}),
+    ('/register',{'telephone':'12345678912','passwd':'abc'}),
+    ('/updateinfo',{'telephone':'12345678912','id':1,'name':'abc'}),
+    ('/login',{'telephone':'12345678912',
+        'token':'dab36eefef9a00f938c3069c0cceceedfbcbddb2a298ff49b123b205e9b45a7b66444a528df6d5417d88cfd38d1fc2f2ae3eed7d4342f7c25c7b3502190ccb35'}),
     # ('/saveSecrityQuestion',{'userId':'1','questionId01':'1','answer01':'a',
     #         'questionId02':'8','answer02':'b','questionId03':'14','answer03':'c'}),
     # ('/questionnaire',{'userId':'1','questionnaireResult':json.dumps({'1':'abc','2':'def'})}),
@@ -39,7 +42,7 @@ def link(item):
 
     # 测试本地服务器
     header_dict = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0)',"Content-Type": "application/x-www-form-urlencoded"}
-    url=''.join(('http://127.0.0.1:8000',base_url,item[0]))
+    url=''.join(('http://cloveses.pythonanywhere.com',base_url,item[0]))
     print(url)
     # 测试远程服务器
     # header_dict = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:52.0) Gecko/20100101 Firefox/52.0',"Content-Type": "application/x-www-form-urlencoded",

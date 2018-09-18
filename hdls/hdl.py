@@ -47,7 +47,7 @@ class IndexHdl(BaseHandler):
     def get(self):
         self.write_json({"hint_info":'self.hint_info'})
 
-@route('/register')
+@route('/api/register')
 class RegHdl(BaseHandler):
     def post(self):
         keys = ('telephone','passwd')
@@ -62,7 +62,7 @@ class RegHdl(BaseHandler):
         else:
             self.write_json({'status':1,'msg':'请完整填写数据！'})
 
-@route('/updateinfo')
+@route('/api/updateinfo')
 class UdtHdl(BaseHandler):
     def post(self):
         keys = ('name','gender','birthday','sign_txt','id','telephone')
@@ -74,7 +74,7 @@ class UdtHdl(BaseHandler):
         else:
             self.write_json({'status':1,'msg':'数据不完整！'})
 
-@route('/login')
+@route('/api/login')
 class LoginHdl(BaseHandler):
     def post(self):
         keys = ('telephone','token')
