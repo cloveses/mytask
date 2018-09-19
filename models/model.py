@@ -58,47 +58,6 @@ class History(db.Entity):
     user = Required(User, reverse='historyes')
     resource = Required(Resource, reverse='historyes')
 
-# class Trust(db.Entity):
-#     nicky_name = Required(str)
-#     email = Required(str)
-#     country = Required(str)
-#     area = Required(str)
-#     number = Required(str)
-#     relationship = Required(str)
-#     user = Required(User,reverse='trusts')
-
-# class FeedBack(db.Entity):
-#     content = Optional(str)
-#     email = Optional(str)
-#     score = Optional(int)
-#     user = Required(User,reverse='feed_backs')
-
-# class SecureQuestion(db.Entity):
-#     question_id = Required(int)
-#     answer = Required(str)
-#     user = Required(User,reverse='secure_questions')
-
-# class SsQuestion(db.Entity):
-#     question = Required(str)
-#     group = Required(int)
-
-# class QestionNaire(db.Entity):
-#     question_id = Required(str)
-#     answer = Required(str)
-#     user = Required(User,reverse='qestion_naires')
-
-
-# class LoginLog(db.Entity):
-#     date_time = Required(datetime.datetime)
-#     user = Required(User,reverse='loginlogs')
-
-# class UsedLocation(db.Entity):
-#     longitude = Required(str)
-#     latitude = Required(str)
-#     address = Required(str)
-#     area_type = Required(str)
-#     user = Required(User,reverse='usedlocations')
-
 set_sql_debug(True)
 filename = os.path.join(os.path.abspath(os.curdir),'my.db')
 db.bind(provider='sqlite', filename=filename, create_db=True)
