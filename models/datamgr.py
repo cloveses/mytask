@@ -27,7 +27,7 @@ def update_info(params):
 
 @db_session
 def verify_user(params):
-    u = select(u for u in User if u.token == params['token'] and
+    u = select(u for u in User if u.passwd == params['passwd'] and
         u.telephone == params['telephone']).first()
     if u:
         return (u.id,u.is_vip())

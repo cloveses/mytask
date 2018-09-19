@@ -77,7 +77,7 @@ class UdtHdl(BaseHandler):
 @route('/api/login')
 class LoginHdl(BaseHandler):
     def post(self):
-        keys = ('telephone','token')
+        keys = ('telephone','passwd')
         params = self.get_params(keys)
         if params:
             res = datamgr.verify_user(params)
