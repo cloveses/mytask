@@ -20,7 +20,7 @@ class BaseHandler(tornado.web.RequestHandler):
         params = dict()
         for key in keys:
             params[key] = self.get_argument(key, strip=True, default='')
-        return params
+        return {k:v for k,v in params.items() if v}
 
 def route(pattern, priority = 0, domain_pattern = None):
     """ Wrap the request handler to do url route

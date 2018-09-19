@@ -47,6 +47,16 @@ class IndexHdl(BaseHandler):
     def get(self):
         self.write_json({"hint_info":'self.hint_info'})
 
+# @route('/api/upload')
+# class UploHdl(BaseHandler):
+#     def post(self):
+#         import binascii
+#         data = self.get_argument('data')
+#         print(type(data))
+#         with open('a.jpg','wb') as f:
+#             f.write(binascii.unhexlify(data.encode('ascii')))
+#         self.write_json({'status':0})
+
 @route('/api/register')
 class RegHdl(BaseHandler):
     def post(self):
@@ -140,18 +150,18 @@ class ShowHdl(BaseHandler):
             self.write_json({'status':1})
 
 @route('/api/up_portrait')
-class PortraitHdl(BaseHandler):
+class UpPortraitHdl(BaseHandler):
     def post(self):
-        keys = ('uid',)
+        keys = ('uid','data')
         params = self.get_params(keys)
         if params and params['uid'].isdigit():
-            if datamgr.save_portrait(params['uid'],self.request.body):
+            if datamgr.save_portrait(params):
                 self.write_json({'status':0})
         else:
             self.write_json({'status':1})
 
 @route('/api/get_portrait')
-class PortraitHdl(BaseHandler):
+class GetPortraitHdl(BaseHandler):
     def post(self):
         keys = ('uid',)
         params = self.get_params(keys)

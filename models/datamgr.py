@@ -1,6 +1,13 @@
 from .model import *
 import datetime
 import calendar
+import binascii
+
+base_url = '/api'
+
+f = open('er.jpg','rb')
+data = binascii.hexlify(f.read())
+
 
 @db_session
 def add_user(params,make_token):
@@ -77,10 +84,10 @@ def get_resrc(rid):
     return r.to_dict(['name','description','url','vipflag'])
 
 @db_session
-def save_portrait(uid,content):
-    u = User[int(uid)]
+def save_portrait(params):
+    u = User[int(params['uid'])]
     if u:
-        u.portrait = content
+        u.portrait = binascii.unhexlify(params['data'].encode('ascii'))
         return True
 
 @db_session
