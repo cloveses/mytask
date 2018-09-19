@@ -50,11 +50,16 @@ class IndexHdl(BaseHandler):
 # @route('/api/upload')
 # class UploHdl(BaseHandler):
 #     def post(self):
-#         import binascii
+#         # import binascii
+#         # data = self.get_argument('data')
+#         # print(type(data))
+#         # with open('a.jpg','wb') as f:
+#         #     f.write(binascii.unhexlify(data.encode('ascii')))
+#         import base64
 #         data = self.get_argument('data')
 #         print(type(data))
 #         with open('a.jpg','wb') as f:
-#             f.write(binascii.unhexlify(data.encode('ascii')))
+#             f.write(base64.b64decode(data.encode('ascii')))
 #         self.write_json({'status':0})
 
 @route('/api/register')

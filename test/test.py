@@ -1,10 +1,11 @@
 from urllib import parse,request
 import json
 import time,random
-import binascii
+import base64
 
-# f = open('er.jpg','rb')
-# data = binascii.hexlify(f.read())
+f = open('wa.jpg','rb')
+data = base64.b64encode(f.read())
+f.close()
 
 base_url = '/api'
 post_item = [
@@ -13,6 +14,7 @@ post_item = [
     # ('/login',{'telephone':'12345678912',
     #     'token':'dab36eefef9a00f938c3069c0cceceedfbcbddb2a298ff49b123b205e9b45a7b66444a528df6d5417d88cfd38d1fc2f2ae3eed7d4342f7c25c7b3502190ccb35'}),
     ('/register',{'telephone':'张三','passwd':'abc'}),
+    ('/up_portrait',{'uid':1,'data':data})
 
     # {'status': 0, 'data': {'telephone': '张三', 'token': 'b13216b2fe8fc7690dd60c611a7f6af5bf1bccf3ba325c7e91584dea17d93d3145959142a76c2b0a7c9ec64db231abb7d7e25ba9c1173b659a3b4285dcc3a26a'}
     # ('/saveSecrityQuestion',{'userId':'1','questionId01':'1','answer01':'a',

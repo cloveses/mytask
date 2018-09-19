@@ -1,6 +1,7 @@
 from .model import *
 import datetime
 import calendar
+import base64
 
 @db_session
 def add_user(params,make_token):
@@ -80,7 +81,7 @@ def get_resrc(rid):
 def save_portrait(params):
     u = User[int(params['uid'])]
     if u:
-        u.portrait = binascii.unhexlify(params['data'].encode('ascii'))
+        u.portrait = base64.b64decode(params['data'].encode('ascii'))
         return True
 
 @db_session
