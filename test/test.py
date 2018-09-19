@@ -11,8 +11,8 @@ base_url = '/api'
 post_item = [
     ('/register',{'telephone':'12345678912','passwd':'abc'}),
     ('/updateinfo',{'telephone':'12345678912','id':1,'name':'abc'}),
-    # ('/login',{'telephone':'12345678912',
-    #     'token':'dab36eefef9a00f938c3069c0cceceedfbcbddb2a298ff49b123b205e9b45a7b66444a528df6d5417d88cfd38d1fc2f2ae3eed7d4342f7c25c7b3502190ccb35'}),
+    ('/login',{'telephone':'12345678912',
+        'passwd':'abc'}),
     ('/register',{'telephone':'张三','passwd':'abc'}),
     ('/up_portrait',{'uid':1,'data':data})
 
