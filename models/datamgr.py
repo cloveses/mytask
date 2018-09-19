@@ -1,13 +1,6 @@
 from .model import *
 import datetime
 import calendar
-import binascii
-
-base_url = '/api'
-
-f = open('er.jpg','rb')
-data = binascii.hexlify(f.read())
-
 
 @db_session
 def add_user(params,make_token):
