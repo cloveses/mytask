@@ -1,6 +1,10 @@
 from urllib import parse,request
 import json
 import time,random
+import binascii
+
+# f = open('er.jpg','rb')
+# data = binascii.hexlify(f.read())
 
 base_url = '/api'
 post_item = [
