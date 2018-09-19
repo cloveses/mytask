@@ -52,7 +52,7 @@ class RegHdl(BaseHandler):
     def post(self):
         keys = ('telephone','passwd')
         params = self.get_params(keys)
-        if params:
+        if params and len(params) == 2:
             params['passwd'] = make_pw(params['passwd'],params['telephone'])
             res = datamgr.add_user(params,make_token)
             if res:
@@ -67,7 +67,7 @@ class UdtHdl(BaseHandler):
     def post(self):
         keys = ('name','gender','birthday','sign_txt','id','telephone')
         params = self.get_params(keys)
-        if params and params['id'] and params['telephone'] and all(params.values()):
+        if params and len(params) > 2 and 'id' in params and 'telephone' in params and params['id'].isdigit():
             res = datamgr.update_info(params)
             if res:
                 self.write_json({'status':0})
@@ -79,7 +79,8 @@ class LoginHdl(BaseHandler):
     def post(self):
         keys = ('telephone','passwd')
         params = self.get_params(keys)
-        if params:
+        if params and len(params) == 2:
+            params['passwd'] = make_pw(params['passwd'],params['telephone'])
             res = datamgr.verify_user(params)
             if res:
                 self.write_json({'status':0,'data':{'id':res[0],'is_vip':res[1]}})
@@ -93,9 +94,9 @@ class SetPwHdl(BaseHandler):
     def post(self):
         keys = ('telephone','passwd','opasswd')
         params = self.get_params(keys)
-        params['opasswd'] = make_pw(params['opasswd'],params['telephone'])
-        params['passwd'] = make_pw(params['passwd'],params['telephone'])
-        if params and all(params.values()):
+        if params and len(params) == 3:
+            params['opasswd'] = make_pw(params['opasswd'],params['telephone'])
+            params['passwd'] = make_pw(params['passwd'],params['telephone'])
             if datamgr.set_passwd(params):
                 self.write_json({'status':0})
                 return
@@ -107,6 +108,7 @@ class ResrcHdl(BaseHandler):
     def post(self):
         keys = ('typeid','page','areaid','classid')
         params = self.get_params(keys)
+        params = {k:v for k,v in params.items() if v.isdigit()}
         res = datamgr.get_resrcs(params)
         if res:
             self.write_json({'status':0,'data':res})
@@ -130,7 +132,7 @@ class ShowHdl(BaseHandler):
     def post(self):
         keys = ('rid',)
         params = self.get_params(keys)
-        if params:
+        if params and params['rid'].isdigit():
             res = datamgr.get_resrc(params['rid'])
             if res:
                 self.write_json({'status':0,'data':res})
@@ -142,7 +144,7 @@ class PortraitHdl(BaseHandler):
     def post(self):
         keys = ('uid',)
         params = self.get_params(keys)
-        if params:
+        if params and params['uid'].isdigit():
             if datamgr.save_portrait(params['uid'],self.request.body):
                 self.write_json({'status':0})
         else:
@@ -153,7 +155,7 @@ class PortraitHdl(BaseHandler):
     def post(self):
         keys = ('uid',)
         params = self.get_params(keys)
-        if params:
+        if params and params['uid'].isdigit():
             res = datamgr.get_portrait(params['uid'])
             if res:
                 self.set_header("Content-Type", "image/jpeg")
