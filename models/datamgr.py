@@ -21,6 +21,11 @@ def update_info(params):
     if u:
         del params['id']
         del params['telephone']
+        if 'gender' in params:
+            if params['gender'].isdigit():
+                params['gender'] = int(params['gender'])
+            else:
+                del params['gender']
         if params:
             for k,v in params.items():
                 setattr(u,k,v)
