@@ -1,7 +1,20 @@
 from .model import *
+from tweb import tools
 import datetime
 import calendar
 import base64
+
+@db_session
+def send(params):
+    if not exists(u for u in User if u.telephone==params['telephone']):
+        code = ''
+        try:
+            code,ret = tools.send_sms(params['telephone'])
+        except:
+            return False
+        if code and ret:
+            Sms(telephone=params['telephone'],smsid=ret['smsid'])
+            return ret['smsid']
 
 @db_session
 def add_user(params,make_token):

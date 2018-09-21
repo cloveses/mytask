@@ -58,6 +58,11 @@ class History(db.Entity):
     user = Required(User, reverse='historyes')
     resource = Required(Resource, reverse='historyes')
 
+class Sms(db.Entity):
+    telephone = Required(str)
+    smsid = Required(str)
+    create_date = Required(datetime.datetime,default=datetime.datetime.now())
+
 set_sql_debug(True)
 filename = os.path.join(os.path.abspath(os.curdir),'my.db')
 db.bind(provider='sqlite', filename=filename, create_db=True)

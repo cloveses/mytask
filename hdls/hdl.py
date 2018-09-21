@@ -62,10 +62,28 @@ class IndexHdl(BaseHandler):
 #             f.write(base64.b64decode(data.encode('ascii')))
 #         self.write_json({'status':0})
 
+@route('/api/send_sms')
+class SendHdl(BaseHandler):
+    def post(self):
+        keys = ('telephone',)
+        params = self.get_params(keys)
+        if params and params['telephone'].isdigit():
+            res = datamgr.send(params)
+            if res is not None:
+                if res:
+                    self.write_json({'status':0,'smsid':res})
+                else:
+                    self.write_json({'status':1,'msg':'验证短信发送失败！'})
+            else:
+                self.write_json({'status':1,'msg':'手机号已注册！'})
+        else:
+            self.write_json({'status':1,'msg':'无正确手机号！'})
+
+
 @route('/api/register')
 class RegHdl(BaseHandler):
     def post(self):
-        keys = ('telephone','passwd')
+        keys = ('telephone','passwd','code','vcode')
         params = self.get_params(keys)
         if params and len(params) == 2:
             params['passwd'] = make_pw(params['passwd'],params['telephone'])
