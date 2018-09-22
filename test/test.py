@@ -9,12 +9,14 @@ f.close()
 
 base_url = '/api'
 post_item = [
-    ('/register',{'telephone':'12345678912','passwd':'abc'}),
-    ('/updateinfo',{'telephone':'12345678912','id':1,'name':'abc'}),
-    ('/login',{'telephone':'12345678912',
-        'passwd':'abc'}),
-    ('/register',{'telephone':'张三','passwd':'abc'}),
+    # ('/register',{'telephone':'12345678912','passwd':'abc'}),
+    # ('/updateinfo',{'telephone':'12345678912','id':1,'name':'abc'}),
+    # ('/login',{'telephone':'12345678912',
+    #     'passwd':'abc'}),
+    # ('/register',{'telephone':'张三','passwd':'abc'}),
     ('/up_portrait',{'uid':1,'data':data})
+    # ('/send_sms',{'telephone':'13485842157'}),
+    ('/register',{'telephone':'13495942157','code':'469594','vcode':'c7fcf9cd96559d58378fe4d8224cd534','passwd':'abc'})
 
     # {'status': 0, 'data': {'telephone': '张三', 'token': 'b13216b2fe8fc7690dd60c611a7f6af5bf1bccf3ba325c7e91584dea17d93d3145959142a76c2b0a7c9ec64db231abb7d7e25ba9c1173b659a3b4285dcc3a26a'}
     # ('/saveSecrityQuestion',{'userId':'1','questionId01':'1','answer01':'a',

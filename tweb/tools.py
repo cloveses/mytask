@@ -24,7 +24,7 @@ def send_sms(mobile):
     res = request.urlopen(req)
     res = res.read()
     ret = json.loads(res.decode(encoding='utf-8'))
-    print(ret)
+    # print(ret)
     return code,ret
 
 if __name__ == '__main__':
