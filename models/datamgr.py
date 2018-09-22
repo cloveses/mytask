@@ -14,10 +14,10 @@ def is_timeout(d,timeout=30):
 def send(params):
     if not exists(u for u in User if u.telephone==params['telephone']):
         code,ret = '',{}
-        try:
-            code,ret = tools.send_sms(params['telephone'])
-        except:
-            return False
+        # try:
+        code,ret = tools.send_sms(params['telephone'])
+        # except:
+            # return False
         if code and ret:
             Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'])
             return ret['smsid']
