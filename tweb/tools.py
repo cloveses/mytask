@@ -9,11 +9,11 @@ ssl._create_default_https_context = ssl._create_unverified_context
 
 def send_sms(mobile):
     code = str(random.randint(100000,999999))
-    textmod={'sid':'ed547745364d28602887c8f79b80e3b55',
-            'token':'df3e1a8ae3847817c16e7a3cca602ca66',
-            'appid':'f53c88ceffb9417db14005794a5bc7d33',
+    textmod={'sid':'ed547745364d28602887c8f79b80e3b5',
+            'token':'df3e1a8ae3847817c16e7a3cca602ca6',
+            'appid':'f53c88ceffb9417db14005794a5bc7d3',
             'templateid':'369959',
-            'param':,code
+            'param':code,
             'mobile':mobile,
             'uid':'1'
             }

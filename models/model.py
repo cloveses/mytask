@@ -59,8 +59,9 @@ class History(db.Entity):
     resource = Required(Resource, reverse='historyes')
 
 class Sms(db.Entity):
-    telephone = Required(str)
-    smsid = Required(str)
+    code = Required(str)
+    telephone = Optional(str)
+    smsid = Optional(str)
     create_date = Required(datetime.datetime,default=datetime.datetime.now())
 
 set_sql_debug(True)

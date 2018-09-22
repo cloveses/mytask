@@ -85,13 +85,14 @@ class RegHdl(BaseHandler):
     def post(self):
         keys = ('telephone','passwd','code','vcode')
         params = self.get_params(keys)
-        if params and len(params) == 2:
+        if params and len(params) == 4:
             params['passwd'] = make_pw(params['passwd'],params['telephone'])
             res = datamgr.add_user(params,make_token)
-            if res:
+            if isinstance(res,tuple):
                 self.write_json({'status':0,'data':{'telephone':res[0],'token':res[1]}})
             else:
-                self.write_json({'status':1,'msg':'此号已注册！'})
+                msgs = ('号码已注册','验证码错误','超时','安全验证失败')
+                self.write_json({'status':1,'msg':msgs[res]})
         else:
             self.write_json({'status':1,'msg':'请完整填写数据！'})
 

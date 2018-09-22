@@ -3,29 +3,44 @@ from tweb import tools
 import datetime
 import calendar
 import base64
+import hashlib
 
 @db_session
 def send(params):
     if not exists(u for u in User if u.telephone==params['telephone']):
-        code = ''
+        code,ret = '',{}
         try:
             code,ret = tools.send_sms(params['telephone'])
         except:
             return False
         if code and ret:
-            Sms(telephone=params['telephone'],smsid=ret['smsid'])
+            Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'])
             return ret['smsid']
 
 @db_session
 def add_user(params,make_token):
     if not exists(u for u in User if u.telephone==params['telephone']):
-        u = User(**params)
+        sms = select(s for s in Sms if s.telephone==params['telephone'] and 
+            s.code==params['code']).first()
+        if not sms:
+            return 1 #验证码错误
+        now = datetime.datetime.now()
+        minutes = (now - sms.create_date).seconds // 60
+        if minutes > 3:
+            sms.delete()
+            return 2 #超时
+        md5str = sms.smsid + sms.telephone
+        vcode = hashlib.md5(md5str.encode('utf-8')).hexdigest()
+        if vcode != params['vcode']:
+            sms.delete()
+            return 3 #安全验证失败
+        u = User(telephone=params['telephone'],passwd=params['passwd'])
         token = make_token(','.join((u.telephone,str(u.id))))
         u.token = token
         commit()
         return (u.telephone,token)
     else:
-        return False
+        return 0 # 号码已注册
 
 @db_session
 def update_info(params):
