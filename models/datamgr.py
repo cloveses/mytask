@@ -29,7 +29,7 @@ def add_user(params,make_token):
         if not sms:
             return 1 #验证码错误
         minutes = (now - sms.create_date).seconds // 60
-        if minutes > 3:
+        if minutes > 30:
             sms.delete()
             return 2 #超时
         md5str = sms.smsid + sms.telephone
@@ -37,7 +37,7 @@ def add_user(params,make_token):
         vcode = hashlib.md5(md5str.encode('utf-8')).hexdigest()
         print('local:',vcode,'remote:',params['vcode'])
         if vcode != params['vcode']:
-            sms.delete()
+            # sms.delete()
             return 3 #安全验证失败
         u = User(telephone=params['telephone'],passwd=params['passwd'])
         token = make_token(','.join((u.telephone,str(u.id))))
