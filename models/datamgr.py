@@ -28,7 +28,6 @@ def add_user(params,make_token):
             s.code==params['code']).first()
         if not sms:
             return 1 #验证码错误
-        now = datetime.datetime.now()
         minutes = (now - sms.create_date).seconds // 60
         if minutes > 3:
             sms.delete()
