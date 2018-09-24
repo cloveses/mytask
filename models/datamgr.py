@@ -15,14 +15,13 @@ def send(params):
             return False
             # code,ret = '123123',{'smsid':'jjdjk88yfdjkjdf98d7'}
         if code and ret:
+            delete(s for s in Sms if s.telephone == params['telephone'])
             Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'])
             return ret['smsid']
 
 @db_session
 def add_user(params,make_token):
     now = datetime.datetime.now()
-    past = now - datetime.timedelta(minutes=5)
-    delete(s for s in Sms if s.create_date <= past)
     if not exists(u for u in User if u.telephone==params['telephone']):
         sms = select(s for s in Sms if s.telephone==params['telephone'] and 
             s.code==params['code']).first()
