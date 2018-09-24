@@ -5,11 +5,6 @@ import calendar
 import base64
 import hashlib
 
-def is_timeout(d,timeout=30):
-        now = datetime.datetime.now()
-        minutes = (now - d).seconds // 60
-        return minutes > timeout
-
 @db_session
 def send(params):
     if not exists(u for u in User if u.telephone==params['telephone']):
@@ -25,7 +20,9 @@ def send(params):
 
 @db_session
 def add_user(params,make_token):
-    delete(s for s in Sms if is_timeout(s.create_date))
+    now = datetime.datetime.now()
+    past = now - datetime.timedelta(minutes=5)
+    delete(s for s in Sms if s.create_date >= past)
     if not exists(u for u in User if u.telephone==params['telephone']):
         sms = select(s for s in Sms if s.telephone==params['telephone'] and 
             s.code==params['code']).first()
