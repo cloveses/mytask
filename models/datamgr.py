@@ -22,7 +22,7 @@ def send(params):
 def add_user(params,make_token):
     now = datetime.datetime.now()
     past = now - datetime.timedelta(minutes=5)
-    delete(s for s in Sms if s.create_date >= past)
+    delete(s for s in Sms if s.create_date <= past)
     if not exists(u for u in User if u.telephone==params['telephone']):
         sms = select(s for s in Sms if s.telephone==params['telephone'] and 
             s.code==params['code']).first()
