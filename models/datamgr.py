@@ -22,6 +22,7 @@ def send(params):
 @db_session
 def add_user(params,make_token):
     now = datetime.datetime.now()
+    delete(s for s in Sms if now - datetime.timedelta(minutes=5) >= s.create_date)
     if not exists(u for u in User if u.telephone==params['telephone']):
         sms = select(s for s in Sms if s.telephone==params['telephone'] and 
             s.code==params['code']).first()
