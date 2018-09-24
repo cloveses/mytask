@@ -34,7 +34,7 @@ def add_user(params,make_token):
             return 2 #超时
         md5str = sms.smsid + sms.telephone
         vcode = hashlib.md5(md5str.encode('utf-8')).hexdigest()
-        print('local:',vcode,'remote:':params['vcode'])
+        print('local:',vcode,'remote:'params['vcode'])
         if vcode != params['vcode']:
             sms.delete()
             return 3 #安全验证失败
