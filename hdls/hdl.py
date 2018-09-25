@@ -118,7 +118,7 @@ class LoginHdl(BaseHandler):
         params = self.get_params(keys)
         if params and len(params) == 2:
             params['passwd'] = make_pw(params['passwd'],params['telephone'])
-            res = datamgr.verify_user(params)
+            res = datamgr.verify_user(params,make_token)
             if res:
                 self.write_json({'status':0,'data':{'id':res[0],'is_vip':res[1],'token':res[2]}})
             else:

@@ -69,7 +69,7 @@ def update_info(params):
             return True
 
 @db_session
-def verify_user(params):
+def verify_user(params,make_token):
     u = select(u for u in User if u.passwd == params['passwd'] and
         u.telephone == params['telephone']).first()
     if u:
