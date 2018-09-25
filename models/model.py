@@ -62,7 +62,7 @@ class Sms(db.Entity):
     code = Required(str)
     telephone = Required(str)
     smsid = Optional(str)
-    create_date = Required(datetime.datetime,default=datetime.datetime.now())
+    create_date = Required(datetime.datetime)
 
 set_sql_debug(True)
 filename = os.path.join(os.path.abspath(os.curdir),'my.db')

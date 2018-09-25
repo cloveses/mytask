@@ -16,10 +16,12 @@ def send(params):
         if code and ret:
             # print('code:',code,'ret:',ret)
             sms = select(s for s in Sms if s.telephone == params['telephone']).first()
+            now = datetime.datetime.now()
             if sms:
-                sms.code,sms.telephone,sms.smsid,sms.create_date = code,params['telephone'],smsid=ret['smsid'],datetime.datetime.now()
+                sms.code,sms.telephone = code,params['telephone']
+                sms.smsid,sms.create_date = smsid=ret['smsid'],now
             else:
-                Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'])
+                Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'], create_date=now)
             commit()
             return ret['smsid']
 
