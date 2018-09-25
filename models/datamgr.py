@@ -74,7 +74,7 @@ def verify_user(params):
         return (u.id,u.is_vip(),u.token)
 
 @db_session
-def vlogin(params):
+def vlogin(params,make_token):
     u = select(u for u in User if u.telephone==params['telephone'])
     if u:
         token = make_token(','.join((u.telephone,str(u.id))))

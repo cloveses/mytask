@@ -128,7 +128,7 @@ class VloginHdl(BaseHandler):
     def post(self):
         keys = ('telephone','token')
         params = self.get_params(keys)
-        if params and len(params) == 2 and datamgr.vlogin(params):
+        if params and len(params) == 2 and datamgr.vlogin(params,make_token):
             self.write_json({'status':0})
         else:
             self.write_json({'status':1})
