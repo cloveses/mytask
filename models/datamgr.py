@@ -80,10 +80,7 @@ def verify_user(params,make_token):
 def vlogin(params,make_token):
     u = select(u for u in User if u.telephone==params['telephone']).first()
     if u:
-        print(u.id,u.telephone)
         token = make_token(','.join((u.telephone,str(u.id))))
-        print(token)
-        print(params['token'])
         if token == params['token']:
             return True
 
