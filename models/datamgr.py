@@ -75,7 +75,7 @@ def verify_user(params):
 
 @db_session
 def vlogin(params,make_token):
-    u = select(u for u in User if u.telephone==params['telephone'])
+    u = select(u for u in User if u.telephone==params['telephone']).first()
     if u:
         token = make_token(','.join((u.telephone,str(u.id))))
         if token == params['token']:
