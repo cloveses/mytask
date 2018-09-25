@@ -14,7 +14,7 @@ def send(params):
         except:
             return False
         if code and ret:
-            print('code:',code,'ret:',ret)
+            # print('code:',code,'ret:',ret)
             delete(s for s in Sms if s.telephone == params['telephone'])
             Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'])
             commit()
@@ -34,9 +34,9 @@ def add_user(params,make_token):
         if minutes > timeout:
             return 2 #超时
         md5str = sms.smsid + sms.telephone
-        print('md5str:',md5str)
+        # print('md5str:',md5str)
         vcode = hashlib.md5(md5str.encode('utf-8')).hexdigest()
-        print('local:',vcode,'remote:',params['vcode'])
+        # print('local:',vcode,'remote:',params['vcode'])
         if vcode != params['vcode']:
             # sms.delete()
             return 3 #安全验证失败
@@ -71,7 +71,7 @@ def verify_user(params):
     u = select(u for u in User if u.passwd == params['passwd'] and
         u.telephone == params['telephone']).first()
     if u:
-        return (u.id,u.is_vip())
+        return (u.id,u.is_vip(),u.token)
 
 @db_session
 def vlogin(params):

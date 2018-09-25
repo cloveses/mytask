@@ -117,7 +117,7 @@ class LoginHdl(BaseHandler):
             params['passwd'] = make_pw(params['passwd'],params['telephone'])
             res = datamgr.verify_user(params)
             if res:
-                self.write_json({'status':0,'data':{'id':res[0],'is_vip':res[1]}})
+                self.write_json({'status':0,'data':{'id':res[0],'is_vip':res[1],'token':res[2]}})
             else:
                 self.write_json({'status':1})
         else:
