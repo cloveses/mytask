@@ -29,19 +29,17 @@ def send(params):
 def add_user(params,make_token):
     timeout = 30
     now = datetime.datetime.now()
-    # delete(s for s in Sms if now - datetime.timedelta(minutes=timeout) >= s.create_date)
+    delete(s for s in Sms if now - datetime.timedelta(minutes=timeout) >= s.create_date)
     if not exists(u for u in User if u.telephone==params['telephone']):
         sms = select(s for s in Sms if s.telephone==params['telephone'] and 
             s.code==params['code']).first()
         if not sms:
             return 1 #验证码错误
         minutes = (now - sms.create_date).seconds // 60
-        if minutes > timeout:
+        if minutes > 3:
             return 2 #超时
         md5str = sms.smsid + sms.telephone
-        # print('md5str:',md5str)
         vcode = hashlib.md5(md5str.encode('utf-8')).hexdigest()
-        # print('local:',vcode,'remote:',params['vcode'])
         if vcode != params['vcode']:
             # sms.delete()
             return 3 #安全验证失败
@@ -49,7 +47,7 @@ def add_user(params,make_token):
         u = User(telephone=params['telephone'],passwd=params['passwd'])
         commit()
         token_str = ','.join((u.telephone,str(u.id)))
-        print('token_str',token_str)
+        # print('token_str',token_str)
         token = make_token(token_str)
         commit()
         return (u.telephone,token)
@@ -79,7 +77,6 @@ def verify_user(params,make_token):
         u.telephone == params['telephone']).first()
     if u:
         token_str = ','.join((u.telephone,str(u.id)))
-        print('token_str',token_str)
         token = make_token(token_str)
         return (u.id,u.is_vip(),token)
 
@@ -88,7 +85,6 @@ def vlogin(params,make_token):
     u = select(u for u in User if u.telephone==params['telephone']).first()
     if u:
         token_str = ','.join((u.telephone,str(u.id)))
-        print('token_str',token_str)
         token = make_token(token_str)
         if token == params['token']:
             return True
