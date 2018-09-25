@@ -123,6 +123,16 @@ class LoginHdl(BaseHandler):
         else:
             self.write_json({'status':1,'msg':'数据不完整！'})
 
+@route('/api/vlogin')
+class VloginHdl(BaseHandler):
+    def post(self):
+        keys = ('telephone','token')
+        params = self.get_params(keys)
+        if params and len(params) == 2 and datamgr.vlogin(params):
+            self.write_json({'status':0})
+        else:
+            self.write_json({'status':1})
+
 @route('/api/setpw')
 class SetPwHdl(BaseHandler):
     def post(self):

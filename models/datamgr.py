@@ -74,6 +74,14 @@ def verify_user(params):
         return (u.id,u.is_vip())
 
 @db_session
+def vlogin(params):
+    u = select(u for u in User if u.telephone==params['telephone'])
+    if u:
+        token = make_token(','.join((u.telephone,str(u.id))))
+        if token == params['token']:
+            return True
+
+@db_session
 def set_passwd(params):
     u = select(u for u in User if u.telephone==params['telephone'] and 
         u.passwd ==params['opasswd']).first()
