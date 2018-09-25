@@ -13,8 +13,8 @@ def send(params):
             code,ret = tools.send_sms(params['telephone'])
         except:
             return False
-            # code,ret = '123123',{'smsid':'jjdjk88yfdjkjdf98d7'}
         if code and ret:
+            print('code:',code,'ret:',ret)
             delete(s for s in Sms if s.telephone == params['telephone'])
             Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'])
             return ret['smsid']
