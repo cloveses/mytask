@@ -16,8 +16,6 @@ def send(params):
             # code,ret = '123123',{'smsid':'jjdjk88yfdjkjdf98d7'}
         if code and ret:
             delete(s for s in Sms if s.telephone == params['telephone'])
-            commit()
-            print('save code.......')
             Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'])
             return ret['smsid']
 
