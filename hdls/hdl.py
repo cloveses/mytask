@@ -10,11 +10,7 @@ from models import datamgr
 def make_pw(psw,salt):
     psw = ''.join((psw,salt))
     psw = psw.encode()
-    try:
-        ret = hashlib.sha3_512(psw).hexdigest()
-    except:
-        ret = hashlib.sha512(psw).hexdigest()
-        
+    ret = hashlib.sha512(psw).hexdigest()
     return ret
 
 # def make_token(s):
@@ -25,7 +21,7 @@ def make_pw(psw,salt):
 #     return make_pw(md5_str,sha1_str)
 
 def make_token(s):
-    return make_pw(s,salt=s[1:])
+    return make_pw(s,salt='')
 
 # def get_days(y,m,d,months=6):
 #     days = 0
