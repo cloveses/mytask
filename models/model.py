@@ -40,7 +40,7 @@ class User(db.Entity):
     birthday = Optional(datetime.date)
     sign_txt = Optional(str)
     vip_end = Optional(datetime.datetime)
-    token = Optional(str)
+    # token = Optional(str)
     favourites = Set('Favourite')
     historyes = Set('History')
     

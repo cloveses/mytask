@@ -46,7 +46,6 @@ def add_user(params,make_token):
         sms.delete()
         u = User(telephone=params['telephone'],passwd=params['passwd'])
         token = make_token(','.join((u.telephone,str(u.id))))
-        u.token = token
         commit()
         return (u.telephone,token)
     else:
@@ -74,7 +73,8 @@ def verify_user(params):
     u = select(u for u in User if u.passwd == params['passwd'] and
         u.telephone == params['telephone']).first()
     if u:
-        return (u.id,u.is_vip(),u.token)
+        token = make_token(','.join((u.telephone,str(u.id))))
+        return (u.id,u.is_vip(),token)
 
 @db_session
 def vlogin(params,make_token):
