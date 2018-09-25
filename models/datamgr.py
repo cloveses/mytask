@@ -31,7 +31,6 @@ def add_user(params,make_token):
             return 1 #验证码错误
         minutes = (now - sms.create_date).seconds // 60
         if minutes > timeout:
-            # sms.delete()
             return 2 #超时
         md5str = sms.smsid + sms.telephone
         print('md5str:',md5str)
