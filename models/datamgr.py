@@ -47,6 +47,7 @@ def add_user(params,make_token):
             return 3 #安全验证失败
         sms.delete()
         u = User(telephone=params['telephone'],passwd=params['passwd'])
+        commit()
         token_str = ','.join((u.telephone,str(u.id)))
         print('token_str',token_str)
         token = make_token(token_str)
