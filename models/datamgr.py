@@ -16,21 +16,23 @@ def send(params):
             # code,ret = '123123',{'smsid':'jjdjk88yfdjkjdf98d7'}
         if code and ret:
             delete(s for s in Sms if s.telephone == params['telephone'])
+            commit()
             Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'])
             return ret['smsid']
 
 @db_session
 def add_user(params,make_token):
+    timeout = 30
     now = datetime.datetime.now()
-    delete(s for s in Sms if now - datetime.timedelta(minutes=5) >= s.create_date)
+    delete(s for s in Sms if now - datetime.timedelta(minutes=timeout) >= s.create_date)
     if not exists(u for u in User if u.telephone==params['telephone']):
         sms = select(s for s in Sms if s.telephone==params['telephone'] and 
             s.code==params['code']).first()
         if not sms:
             return 1 #验证码错误
         minutes = (now - sms.create_date).seconds // 60
-        if minutes > 30:
-            sms.delete()
+        if minutes > timeout:
+            # sms.delete()
             return 2 #超时
         md5str = sms.smsid + sms.telephone
         print('md5str:',md5str)
@@ -39,6 +41,7 @@ def add_user(params,make_token):
         if vcode != params['vcode']:
             # sms.delete()
             return 3 #安全验证失败
+        sms.delete()
         u = User(telephone=params['telephone'],passwd=params['passwd'])
         token = make_token(','.join((u.telephone,str(u.id))))
         u.token = token
