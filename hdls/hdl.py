@@ -17,12 +17,15 @@ def make_pw(psw,salt):
         
     return ret
 
+# def make_token(s):
+#     curr_time = ''.join((str(time.time()),time.ctime(),
+#         time.asctime(),str(time.clock())))
+#     md5_str = make_pw(s,curr_time)
+#     sha1_str = hashlib.sha1(','.join((s,curr_time)).encode()).hexdigest()
+#     return make_pw(md5_str,sha1_str)
+
 def make_token(s):
-    curr_time = ''.join((str(time.time()),time.ctime(),
-        time.asctime(),str(time.clock())))
-    md5_str = make_pw(s,curr_time)
-    sha1_str = hashlib.sha1(','.join((s,curr_time)).encode()).hexdigest()
-    return make_pw(md5_str,sha1_str)
+    return make_pw(s,salt=s[1:])
 
 # def get_days(y,m,d,months=6):
 #     days = 0
