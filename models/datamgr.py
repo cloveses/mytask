@@ -47,7 +47,9 @@ def add_user(params,make_token):
             return 3 #安全验证失败
         sms.delete()
         u = User(telephone=params['telephone'],passwd=params['passwd'])
-        token = make_token(','.join((u.telephone,str(u.id))))
+        token_str = ','.join((u.telephone,str(u.id)))
+        print('token_str',token_str)
+        token = make_token(token_str)
         commit()
         return (u.telephone,token)
     else:
@@ -75,14 +77,18 @@ def verify_user(params,make_token):
     u = select(u for u in User if u.passwd == params['passwd'] and
         u.telephone == params['telephone']).first()
     if u:
-        token = make_token(','.join((u.telephone,str(u.id))))
+        token_str = ','.join((u.telephone,str(u.id)))
+        print('token_str',token_str)
+        token = make_token(token_str)
         return (u.id,u.is_vip(),token)
 
 @db_session
 def vlogin(params,make_token):
     u = select(u for u in User if u.telephone==params['telephone']).first()
     if u:
-        token = make_token(','.join((u.telephone,str(u.id))))
+        token_str = ','.join((u.telephone,str(u.id)))
+        print('token_str',token_str)
+        token = make_token(token_str)
         if token == params['token']:
             return True
 

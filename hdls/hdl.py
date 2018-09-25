@@ -9,7 +9,7 @@ from models import datamgr
 
 def make_pw(psw,salt):
     psw = ''.join((psw,salt))
-    psw = psw.encode()
+    psw = psw.encode('utf-8')
     ret = hashlib.sha512(psw).hexdigest()
     return ret
 
