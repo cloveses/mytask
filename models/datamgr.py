@@ -15,8 +15,11 @@ def send(params):
             return False
         if code and ret:
             # print('code:',code,'ret:',ret)
-            delete(s for s in Sms if s.telephone == params['telephone'])
-            Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'])
+            sms = select(s for s in Sms if s.telephone == params['telephone']).first()
+            if sms:
+                sms.code,sms.telephone,sms.smsid,sms.create_date = code,params['telephone'],smsid=ret['smsid'],datetime.datetime.now()
+            else:
+                Sms(code=code, telephone=params['telephone'], smsid=ret['smsid'])
             commit()
             return ret['smsid']
 
@@ -24,7 +27,7 @@ def send(params):
 def add_user(params,make_token):
     timeout = 30
     now = datetime.datetime.now()
-    delete(s for s in Sms if now - datetime.timedelta(minutes=timeout) >= s.create_date)
+    # delete(s for s in Sms if now - datetime.timedelta(minutes=timeout) >= s.create_date)
     if not exists(u for u in User if u.telephone==params['telephone']):
         sms = select(s for s in Sms if s.telephone==params['telephone'] and 
             s.code==params['code']).first()

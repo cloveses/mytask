@@ -60,7 +60,7 @@ class History(db.Entity):
 
 class Sms(db.Entity):
     code = Required(str)
-    telephone = Optional(str)
+    telephone = Required(str)
     smsid = Optional(str)
     create_date = Required(datetime.datetime,default=datetime.datetime.now())
 
