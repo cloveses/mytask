@@ -16,7 +16,6 @@ def send(params):
         except:
             return False
         if code and ret:
-            # print('code:',code,'ret:',ret)
             sms = select(s for s in Sms if s.telephone == params['telephone']).first()
             now = datetime.datetime.now()
             if sms:
