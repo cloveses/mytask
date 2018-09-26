@@ -4,6 +4,8 @@ import datetime
 import calendar
 import base64
 import hashlib
+import math
+
 
 @db_session
 def send(params):
@@ -27,27 +29,24 @@ def send(params):
 
 @db_session
 def add_user(params,make_token):
-    timeout = 30
     now = datetime.datetime.now()
-    delete(s for s in Sms if now - datetime.timedelta(minutes=timeout) >= s.create_date)
+    delete(s for s in Sms if s.create_date < now - datetime.timedelta(minutes=30))
     if not exists(u for u in User if u.telephone==params['telephone']):
         sms = select(s for s in Sms if s.telephone==params['telephone'] and 
             s.code==params['code']).first()
         if not sms:
             return 1 #验证码错误
-        minutes = (now - sms.create_date).seconds // 60
-        if minutes > 3:
+        seconds = (now - sms.create_date).seconds
+        if seconds > 3 * 60:
             return 2 #超时
         md5str = sms.smsid + sms.telephone
         vcode = hashlib.md5(md5str.encode('utf-8')).hexdigest()
         if vcode != params['vcode']:
-            # sms.delete()
             return 3 #安全验证失败
         sms.delete()
         u = User(telephone=params['telephone'],passwd=params['passwd'])
         commit()
         token_str = ','.join((u.telephone,str(u.id)))
-        # print('token_str',token_str)
         token = make_token(token_str)
         commit()
         return (u.telephone,token)
