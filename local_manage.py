@@ -5,9 +5,9 @@ import sys
 import settings
 from tornado import web, httpserver, ioloop
 from tweb.url_map import load_handlers
-# from tweb.tools import init_secrity_qstn
+import tornado.options
 
-# init_secrity_qstn()
+tornado.options.parse_command_line()
 handlers,domain_handlers = load_handlers(settings.HDL_DIR)
 
 application = web.Application(handlers, **settings.web_server)
