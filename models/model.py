@@ -66,5 +66,6 @@ class Sms(db.Entity):
 
 set_sql_debug(True)
 filename = os.path.join(os.path.abspath(os.curdir),'my.db')
-db.bind(provider='sqlite', filename=filename, create_db=True)
+# db.bind(provider='sqlite', filename=filename, create_db=True)
+db.bind(provider='mysql',host='localhost',user='webuser',passwd='*Web2user*',db='mydata')
 db.generate_mapping(create_tables=True)
