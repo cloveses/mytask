@@ -100,36 +100,29 @@ def get_resrcs(params, pagesize=6):
     page = int(params['page']) if 'page' in params else 0
     del params['page']
     if params:
-        rets = set()
-        if 'typeid' in params:
-            typeid = int(params['typeid'])
-            rtype = ResrcType[typeid]
-            rets.update(rtype.resources)
-        if 'areaid' in params:
-            areaid = int(params['areaid'])
-            rarea = ResrcArea[areaid]
-            rets.update(rarea.resources)
-        if 'classid' in params:
-            classid = int(params['classid'])
-            rclass = ResrcClass[classid]
-            rets.update(rclass.resources)
+        rets = Resource.select()
+        if 'category' in params:
+            rets.where(category==params[category])
+        if 'region' in params:
+            rets.where(region==params['region'])
+
         rets = list(rets)
-        rets.sort(key=lambda r:r.viewtimes,reverse=True)
-        rets = rets[page*pagesize:(page+1)*pagesize]
+        rets.sort(key=lambda r:r.score,reverse=True)
+        rets = rets.page(page,pagesize)
     else:
-        rets = Resource.select().order_by(desc(Resource.viewtimes))[page*pagesize:(page+1)*pagesize]
-    return [r.to_dict(['id','name','description','viewtimes','vipflag']) for r in rets]
+        rets = Resource.select().order_by(desc(Resource.viewtimes)).page(page,pagesize)
+    return [r.to_dict(['id','title','description','viewtimes','vipflag']) for r in rets]
 
 
 @db_session
 def search(key):
     rets = (r for r in Resource if key in r.name or key in r.description).order_by(desc(Resource.viewtimes))
-    return [r.to_dict(['id','name','description','viewtimes','vipflag']) for r in rets]
+    return [r.to_dict(['id','title','description','','cover','url']) for r in rets]
 
 @db_session
 def get_resrc(rid):
     r = Resource[int(rid)]
-    return r.to_dict(['name','description','url','vipflag'])
+    return r.to_dict(['title','description','url','cover'])
 
 @db_session
 def save_portrait(params):

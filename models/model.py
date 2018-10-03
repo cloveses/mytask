@@ -5,31 +5,47 @@ from pony.orm import *
 db = Database()
 
 class Resource(db.Entity):
-    name = Required(str)
-    description =Required(str)
+    _table_ = 'video'
     url = Required(str)
-    viewtimes = Required(int)
-    vipflag = Required(bool)
-    score = Required(float)
-    myear = Required(int)
-    rtype = Optional('ResrcType', reverse='resources')
-    rarea = Optional('ResrcArea', reverse='resources')
-    rclass = Optional('ResrcClass', reverse='resources')
-    favourites = Set('Favourite')
-    historyes = Set('History')
+    title = Required(str)
+    cover = Optional(str)
+    category = Optional(str)
+    duration = Optional(str)
+    releasetime = Optional(str)
+    region = Optional(str)
+    language = Optional(str)
+    type = Optional(str)
+    description = Optional(str)
+    score = Optional(str)
+    featureKeyword = Optional(str)
+    orderNum = Optional(str)
+
+# class Resource(db.Entity):
+#     name = Required(str)
+#     description =Required(str)
+#     url = Required(str)
+#     viewtimes = Required(int)
+#     vipflag = Required(bool)
+#     score = Required(float)
+#     myear = Required(int)
+#     rtype = Optional('ResrcType', reverse='resources')
+#     rarea = Optional('ResrcArea', reverse='resources')
+#     rclass = Optional('ResrcClass', reverse='resources')
+#     favourites = Set('Favourite')
+#     historyes = Set('History')
 
     
-class ResrcType(db.Entity):
-    name = Required(str)
-    resources = Set(Resource)
+# class ResrcType(db.Entity):
+#     name = Required(str)
+#     resources = Set(Resource)
 
-class ResrcArea(db.Entity):
-    area = Required(str)
-    resources = Set(Resource)
+# class ResrcArea(db.Entity):
+#     area = Required(str)
+#     resources = Set(Resource)
 
-class ResrcClass(db.Entity):
-    mclass = Required(str)
-    resources = Set(Resource)
+# class ResrcClass(db.Entity):
+#     mclass = Required(str)
+#     resources = Set(Resource)
 
 class User(db.Entity):
     name = Optional(str)
@@ -67,5 +83,5 @@ class Sms(db.Entity):
 set_sql_debug(True)
 filename = os.path.join(os.path.abspath(os.curdir),'my.db')
 # db.bind(provider='sqlite', filename=filename, create_db=True)
-db.bind(provider='mysql',host='localhost',user='webuser',passwd='*Web2user*',db='mydata')
+db.bind(provider='mysql',host='localhost',user='webuser',passwd='*Web2user*',db='iqiyi')
 db.generate_mapping(create_tables=True)
