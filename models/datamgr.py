@@ -110,13 +110,13 @@ def get_resrcs(params, pagesize=6):
         rets.sort(key=lambda r:r.score,reverse=True)
         rets = rets.page(page,pagesize)
     else:
-        rets = Resource.select().order_by(desc(Resource.viewtimes)).page(page,pagesize)
-    return [r.to_dict(['id','title','description','viewtimes','vipflag']) for r in rets]
+        rets = Resource.select().order_by(desc(Resource.score)).page(page,pagesize)
+    return [r.to_dict(['id','title','description','score']) for r in rets]
 
 
 @db_session
 def search(key):
-    rets = (r for r in Resource if key in r.name or key in r.description).order_by(desc(Resource.viewtimes))
+    rets = (r for r in Resource if key in r.name or key in r.description).order_by(desc(Resource.score))
     return [r.to_dict(['id','title','description','','cover','url']) for r in rets]
 
 @db_session
