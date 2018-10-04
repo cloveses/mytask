@@ -111,13 +111,19 @@ def get_resrcs(params, pagesize=6):
         rets = rets.page(page,pagesize)
     else:
         rets = Resource.select().order_by(desc(Resource.score)).page(page,pagesize)
-    return [r.to_dict(['id','title','description','score']) for r in rets]
+    rets = [r.to_dict(['id','title','description','score']) for r in rets]
+    for ret in rets:
+        ret['cover'] = 'https:' + ret['cover']
+    return rets
 
 
 @db_session
 def search(key):
     rets = select(r for r in Resource if key in r.title or key in r.description).order_by(desc(Resource.score)).page(1,10)
-    return [r.to_dict(['id','title','description','cover','url','score']) for r in rets]
+    rets = [r.to_dict(['id','title','description','cover','url','score']) for r in rets]
+    for ret in rets:
+        ret['cover'] = 'https:' + ret['cover']
+    return rets
 
 @db_session
 def get_resrc(rid):
