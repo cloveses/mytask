@@ -19,6 +19,8 @@ class Resource(db.Entity):
     score = Optional(str)
     featureKeyword = Optional(str)
     orderNum = Optional(str)
+    favourites = Set('Favourite')
+    historyes = Set('History')
 
 # class Resource(db.Entity):
 #     name = Required(str)
