@@ -116,7 +116,7 @@ def get_resrcs(params, pagesize=6):
 
 @db_session
 def search(key):
-    rets = select(r for r in Resource if key in r.title or key in r.description).order_by(desc(Resource.score))
+    rets = select(r for r in Resource if key in r.title or key in r.description).order_by(desc(Resource.score)).page(1,10)
     return [r.to_dict(['id','title','description','cover','url']) for r in rets]
 
 @db_session
