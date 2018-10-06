@@ -61,12 +61,19 @@ class User(db.Entity):
     # token = Optional(str)
     favourites = Set('Favourite')
     historyes = Set('History')
+    vorders = Set('Vorder')
     
     def is_vip(self):
         if self.vip_end and self.vip_end <= datetime.datetime.now():
             return True
         else:
             return False
+
+class Vorder(db.Entity):
+    total_fee = Required(int)
+    order_no = Required(str)
+    result = Required(bool,default=False)
+    user = Required(User)
 
 class Favourite(db.Entity):
     user = Required(User, reverse='favourites')

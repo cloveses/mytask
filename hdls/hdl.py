@@ -6,6 +6,7 @@ import datetime
 import tornado.web
 from tweb.web import BaseHandler, route
 from models import datamgr
+from tweb import tools
 
 def make_pw(psw,salt):
     psw = ''.join((psw,salt))
@@ -205,3 +206,35 @@ class GetPortraitHdl(BaseHandler):
                 self.write(res)
         else:
             self.write_json({'status':1})
+
+@route('/api/pay')
+class PayHdl(BaseHandler):
+    def post(self):
+        keys = ('total_fee','uid')
+        params = self.get_params(keys)
+        if 'total_fee' in params:
+            total_fee = int(params['total_fee'])
+            order_params, result = tools.submit_order(total_fee)
+            if result['return_code'] == 'SUCCESS':
+                datamgr.save_vorder(order_params['out_trade_no'],total_fee,params['uid'])
+                self.write_json({'status':0})
+            else:
+                self.write_json({'status':1,'msg':result['return_msg']})
+        else:
+            self.write_json({'status':1,'msg':'params not enough!'})
+
+
+@route('/api/pay_notify')
+class PayNotifyHdl(BaseHandler):
+    def post(self):
+        rets = self.request.body.decode('utf-8')
+        params = tools.get_xml_params(rets)
+        if 'sign' in params:
+            sign = params['sign']
+            del params['sign']
+            sign_b = tools.get_sign(params)
+            if sign == sign_b:
+                print('SUCCESS')
+                self.write(tools.SUCCESS_TXT)
+    def get(self):
+        self.post()

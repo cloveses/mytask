@@ -142,3 +142,11 @@ def get_portrait(uid):
     u = User[int(uid)]
     if u:
         return u.portrait
+@db_session
+def save_vorder(order_no,total_fee,uid):
+    u = User[int(uid)]
+    if u:
+        o = Vorder(total_fee=total_fee, order_no=order_no,user=u)
+        u.vorders.add(o)
+        return True
+
