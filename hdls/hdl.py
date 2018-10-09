@@ -150,7 +150,7 @@ class SetPwHdl(BaseHandler):
 @route('/api/resources')
 class ResrcHdl(BaseHandler):
     def post(self):
-        keys = ('category','page','region')
+        keys = ('category','page','region','type','releasetime','language')
         params = self.get_params(keys)
         params = {k:v for k,v in params.items() if v.isdigit()}
         res = datamgr.get_resrcs(params)

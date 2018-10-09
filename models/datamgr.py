@@ -102,9 +102,15 @@ def get_resrcs(params, pagesize=6):
     if params:
         rets = Resource.select()
         if 'category' in params:
-            rets.where(category==params[category])
+            rets.where(category==params['category'])
         if 'region' in params:
             rets.where(region==params['region'])
+        if 'type' in params:
+            rets.where(type==params['type'])
+        if 'releasetime' in params:
+            rets.where(releasetime==params['releasetime'])
+        if 'language' in params:
+            rets.where(language==params['language'])
 
         rets = list(rets)
         rets.sort(key=lambda r:r.score,reverse=True)
