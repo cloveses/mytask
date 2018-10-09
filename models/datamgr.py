@@ -121,7 +121,7 @@ def get_resrcs(params, pagesize=6):
         rets = rets.page(page,pagesize)
     else:
         rets = Resource.select().order_by(desc(Resource.score)).page(page,pagesize)
-    rets = [r.to_dict(['id','title','description','score']) for r in rets]
+    rets = [r.to_dict(['id','title','description','score','cover']) for r in rets]
     for ret in rets:
         ret['cover'] = 'https:' + ret['cover']
     print('...',rets)
