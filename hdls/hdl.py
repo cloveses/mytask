@@ -213,7 +213,7 @@ class PayHdl(BaseHandler):
         keys = ('total_fee','uid')
         params = self.get_params(keys)
         if 'total_fee' in params:
-            total_fee = int(params['total_fee'])
+            total_fee = int(float(params['total_fee']) * 100)
             order_params, result = tools.submit_order(total_fee)
             if result['return_code'] == 'SUCCESS':
                 datamgr.save_vorder(order_params['out_trade_no'],total_fee,params['uid'])
