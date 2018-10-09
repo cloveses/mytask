@@ -124,7 +124,7 @@ def get_resrcs(params, pagesize=6):
     rets = [r.to_dict(['id','title','description','score']) for r in rets]
     for ret in rets:
         ret['cover'] = 'https:' + ret['cover']
-    print(rets)
+    print('...',rets)
     return rets
 
 
