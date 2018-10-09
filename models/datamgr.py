@@ -97,7 +97,7 @@ def set_passwd(params):
 
 @db_session
 def get_resrcs(params, pagesize=6):
-    page = 1
+    page = 0
     if 'page' in params:
         if params['page'].isdigit():
             page = int(params['page'])
