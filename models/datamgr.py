@@ -103,7 +103,7 @@ def get_resrcs(params, pagesize=6):
             page = int(params['page'])
         del params['page']
     if params:
-        rets = Resource.select()
+        rets = select(s for s in Resource)
         if 'category' in params:
             rets.where(category==params['category'])
         if 'region' in params:
