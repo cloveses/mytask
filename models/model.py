@@ -90,7 +90,7 @@ class Sms(db.Entity):
     create_date = Required(datetime.datetime)
 
 set_sql_debug(True)
-filename = os.path.join(os.path.abspath(os.curdir),'my.db')
-db.bind(provider='sqlite', filename=filename, create_db=True)
-# db.bind(provider='mysql',host='localhost',user='webuser',passwd='*Web2user*',db='iqiyi')
+# filename = os.path.join(os.path.abspath(os.curdir),'my.db')
+# db.bind(provider='sqlite', filename=filename, create_db=True)
+db.bind(provider='mysql',host='localhost',user='webuser',passwd='*Web2user*',db='iqiyi')
 db.generate_mapping(create_tables=True)
