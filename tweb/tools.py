@@ -80,7 +80,8 @@ def get_out_trade_no():
     d = datetime.datetime.isoformat(datetime.datetime.now())
     d = d[:d.index('.')]
     d = d.replace(':','_')
-    return d + md5str
+    d += md5str
+    return d[:32]
 
 def get_sign(params):
     params = {k:str(v) for k,v in params.items() if v}
