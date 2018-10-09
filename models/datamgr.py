@@ -115,8 +115,9 @@ def get_resrcs(params, pagesize=6):
         if 'language' in params:
             rets.where(lambda r: r.language==params['language'])
 
-        rets = list(rets)
-        rets.sort(key=lambda r:r.score,reverse=True)
+        # rets = list(rets)
+        # rets.sort(key=lambda r:r.score,reverse=True)
+        rets.order_by(desc(Resource.score))
         rets = rets.page(page,pagesize)
     else:
         rets = Resource.select().order_by(desc(Resource.score)).page(page,pagesize)
