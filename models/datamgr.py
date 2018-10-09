@@ -145,9 +145,8 @@ def get_portrait(uid):
 @db_session
 def save_vorder(order_no,total_fee,uid):
     u = select(u for u in User if u.telephone==params['telephone']).first()
-        u = User[u.id]
-        if u:
-            o = Vorder(total_fee=total_fee, order_no=order_no,user=u)
-            u.vorders.add(o)
-            return True
+    if u:
+        o = Vorder(total_fee=total_fee, order_no=order_no,user=u)
+        u.vorders.add(o)
+        return True
 
