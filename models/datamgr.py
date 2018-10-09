@@ -118,7 +118,7 @@ def get_resrcs(params, pagesize=6):
         # rets = list(rets)
         # rets.sort(key=lambda r:r.score,reverse=True)
         rets.order_by(desc(Resource.score))
-        rets = rets.page(page,pagesize)
+        rets.page(page,pagesize)
     else:
         rets = Resource.select().order_by(desc(Resource.score)).page(page,pagesize)
     rets = [r.to_dict(['id','title','description','score']) for r in rets]
