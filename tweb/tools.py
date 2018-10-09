@@ -11,7 +11,7 @@ import xml.etree.ElementTree as et
 
 params = {
     'appid':'wx907069b19af4c709',
-    'mch_id':'1510784351',  #'1516130171',
+    'mch_id':'1516130171',  #'1510784351',
     'detail':'my detail', #商品描述
     # 'nonce_str':'acc',
     'body':'my body',  #商品详情
