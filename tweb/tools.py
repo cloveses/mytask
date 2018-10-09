@@ -10,14 +10,14 @@ import xml.etree.ElementTree as et
 # import settings
 
 params = {
-    'appid':'wx2421b1c4370ec43b',
-    'mch_id':'abc',
-    'detail':'my detail',
+    'appid':'wx907069b19af4c709',
+    'mch_id':'1516130171',
+    'detail':'my detail', #商品描述
     # 'nonce_str':'acc',
-    'body':'my body',
+    'body':'my body',  #商品详情
     # 'out_trade_no':'abc no',
     # 'total_fee':4,
-    'spbill_create_ip':'23.2.2.2',
+    'spbill_create_ip':'123.59.194.102',
     'notify_url':'http://123.59.194.102:8000/api/pay_notify',
     'trade_type':'JSAPI',
     # 'sign':'abc'

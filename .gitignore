@@ -104,3 +104,4 @@ venv.bak/
 .mypy_cache/
 
 my.db
+local_setting.py
