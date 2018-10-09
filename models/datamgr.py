@@ -103,17 +103,17 @@ def get_resrcs(params, pagesize=6):
             page = int(params['page'])
         del params['page']
     if params:
-        rets = select(s for s in Resource)
+        rets = select(r for r in Resource)
         if 'category' in params:
-            rets.where(category==params['category'])
+            rets.where(lambda r: r.category==params['category'])
         if 'region' in params:
-            rets.where(region==params['region'])
+            rets.where(lambda r: r.region==params['region'])
         if 'type' in params:
-            rets.where(type==params['type'])
+            rets.where(lambda r: r.type==params['type'])
         if 'releasetime' in params:
-            rets.where(releasetime==params['releasetime'])
+            rets.where(lambda r: r.releasetime==params['releasetime'])
         if 'language' in params:
-            rets.where(language==params['language'])
+            rets.where(lambda r: r.language==params['language'])
 
         rets = list(rets)
         rets.sort(key=lambda r:r.score,reverse=True)
