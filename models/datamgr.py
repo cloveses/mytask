@@ -105,20 +105,20 @@ def get_resrcs(params, pagesize=6):
     if params:
         rets = select(r for r in Resource)
         if 'category' in params:
-            rets.where(lambda r: r.category==params['category'])
+            rets = rets.where(lambda r: r.category==params['category'])
         if 'region' in params:
-            rets.where(lambda r: r.region==params['region'])
+            rets = rets.where(lambda r: r.region==params['region'])
         if 'type' in params:
-            rets.where(lambda r: r.type==params['type'])
+            rets = rets.where(lambda r: r.type==params['type'])
         if 'releasetime' in params:
-            rets.where(lambda r: r.releasetime==params['releasetime'])
+            rets = rets.where(lambda r: r.releasetime==params['releasetime'])
         if 'language' in params:
-            rets.where(lambda r: r.language==params['language'])
+            rets = rets.where(lambda r: r.language==params['language'])
 
         # rets = list(rets)
         # rets.sort(key=lambda r:r.score,reverse=True)
-        rets.order_by(desc(Resource.score))
-        rets.page(page,pagesize)
+        rets = rets.order_by(desc(Resource.score))
+        rets = rets.page(page,pagesize)
     else:
         rets = Resource.select().order_by(desc(Resource.score)).page(page,pagesize)
     rets = [r.to_dict(['id','title','description','score']) for r in rets]
