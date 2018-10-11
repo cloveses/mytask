@@ -19,7 +19,7 @@ params = {
     # 'total_fee':4,
     'spbill_create_ip':'123.59.194.102',
     'notify_url':'http://123.59.194.102:8000/api/pay_notify',
-    'trade_type':'JSAPI',
+    'trade_type':'APP',
     # 'sign':'abc'
 }
 
@@ -91,7 +91,8 @@ def get_sign(params):
     for k in ks:
         md5lst.append('='.join((k,params[k])))
     md5str = '&'.join(md5lst)
-    # print(md5str)
+    print(md5str)
+    md5str += '&key=123456789123456789123456789QQQqq'
     return hashlib.md5(md5str.encode('utf-8')).hexdigest()
 
 def submit_order(total_fee):
@@ -129,3 +130,4 @@ def get_xml_params(xml_txt):
 if __name__ == '__main__':
     # send_sms()
     submit_order(5)
+    # print(get_sign(ptest))
