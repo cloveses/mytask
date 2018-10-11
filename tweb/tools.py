@@ -91,7 +91,7 @@ def get_sign(params):
     for k in ks:
         md5lst.append('='.join((k,params[k])))
     md5str = '&'.join(md5lst)
-    print(md5str)
+    # print(md5str)
     md5str += '&key=123456789123456789123456789QQQqq'
     return hashlib.md5(md5str.encode('utf-8')).hexdigest()
 
@@ -105,7 +105,7 @@ def submit_order(total_fee):
     params['sign'] = get_sign(params)
 
     textmod = order_txt.format(**params)
-    print(textmod)
+    # print(textmod)
     textmod = textmod.encode(encoding='utf-8')
     header_dict = {'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Trident/7.0; rv:11.0)',"Content-Type": "text/xml"}
     url='https://api.mch.weixin.qq.com/pay/unifiedorder'
@@ -113,7 +113,7 @@ def submit_order(total_fee):
     res = request.urlopen(req)
     res = res.read()
     res = res.decode('utf-8')
-    print(res)
+    # print(res)
     return params,get_xml_params(res)
     # ret = json.loads(res.decode(encoding='utf-8'))
     # print(ret)
