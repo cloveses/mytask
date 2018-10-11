@@ -10,15 +10,15 @@ import xml.etree.ElementTree as et
 # import settings
 
 params = {
-    'appid':'wx907069b19af4c709',
-    'mch_id':'1516130171',  #'1510784351',
+    'appid':'wxddd',
+    'mch_id':'0171',  #'1510784351',
     'detail':'my detail', #商品描述
     # 'nonce_str':'acc',
     'body':'my body',  #商品详情
     # 'out_trade_no':'abc no',
     # 'total_fee':4,
-    'spbill_create_ip':'123.59.194.102',
-    'notify_url':'http://123.59.194.102:8000/api/pay_notify',
+    'spbill_create_ip':'123.159.194.102',
+    'notify_url':'http://123.159.194.102:8000/api/pay_notify',
     'trade_type':'APP',
     # 'sign':'abc'
 }
@@ -92,7 +92,7 @@ def get_sign(params):
         md5lst.append('='.join((k,params[k])))
     md5str = '&'.join(md5lst)
     # print(md5str)
-    md5str += '&key=123456789123456789123456789QQQqq'
+    md5str += '&key=fff'
     return hashlib.md5(md5str.encode('utf-8')).hexdigest()
 
 def submit_order(total_fee):
